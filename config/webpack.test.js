@@ -1,7 +1,3 @@
-/**
- * @author: @AngularClass
- */
-
 const helpers = require('./helpers');
 
 /**
@@ -259,4 +255,4 @@ module.exports = function (options) {
     }
 
   };
-}
+};
