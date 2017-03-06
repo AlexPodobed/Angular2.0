@@ -2,8 +2,6 @@ import {NgModule} from '@angular/core';
 import {ReactiveFormsModule, FormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 
-// import './courses.scss';
-
 import {CourseItemComponent, CourseListComponent} from './course-list';
 import {CoursesContainerComponent} from './courses-container';
 import {CourseDetailsComponent} from './course-details';

@@ -2,6 +2,8 @@
 /* This file is for setting global styles  */
 
 @import "~bootstrap/scss/bootstrap.scss";
+$fa-font-path: "~font-awesome/fonts";
+@import "~font-awesome/scss/font-awesome";
 @import 'variables';
 
 html {
@@ -10,5 +12,5 @@ html {
 }
 
 body {
-    margin-bottom: 60px;
+    margin-bottom: 80px;
 }
