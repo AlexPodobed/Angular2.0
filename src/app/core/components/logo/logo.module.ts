@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {LogoComponent} from './logo';
+import {LogoComponent} from './logo.component';
 
 @NgModule({
     declarations: [LogoComponent],

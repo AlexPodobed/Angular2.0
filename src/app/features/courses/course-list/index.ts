@@ -1,2 +1,2 @@
-export * from './course-list';
-export * from './course-item/course-item';
+export * from './course-list.component';
+export * from './course-item/course-item.component';

@@ -1,1 +1,1 @@
-export * from './courses-container';
+export * from './courses-container.component';
