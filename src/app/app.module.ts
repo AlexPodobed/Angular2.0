@@ -12,7 +12,7 @@ import {AppComponent} from './app.component';
 import {CoursesModule} from './features/courses';
 
 // Components
-import {FooterModule, HeaderModule, LogoModule} from './core/components';
+import {FooterModule, HeaderModule} from './core/components';
 
 // Services
 import {AppState} from './core/services';
@@ -34,7 +34,6 @@ const APP_PROVIDERS = [
         FormsModule,
         HttpModule,
         // commons
-        LogoModule,
         HeaderModule,
         FooterModule,
         // features
