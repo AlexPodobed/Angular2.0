@@ -16,6 +16,7 @@ import {CoursesModule} from './features/courses';
 // Components
 import {FooterModule, HeaderModule} from './core/components';
 import {NoContentComponent} from './features/no-content';
+import {HomeComponent} from './features/home';
 
 // Services
 import {AppState} from './core/services';
@@ -30,7 +31,7 @@ const APP_PROVIDERS = [
  */
 @NgModule({
     bootstrap: [AppComponent],
-    declarations: [AppComponent, NoContentComponent],
+    declarations: [AppComponent, NoContentComponent, HomeComponent],
     imports: [
         // import Angular's modules
         BrowserModule,

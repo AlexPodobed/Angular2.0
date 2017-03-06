@@ -1,9 +1,11 @@
 import {Routes} from '@angular/router';
-import {CoursesContainerComponent} from './features/courses';
 import {NoContentComponent} from './features/no-content';
+import {HomeComponent} from './features/home';
+
+import {COURSES_ROUTES} from './features/courses/';
 
 export const ROUTES: Routes = [
-    {path: '', component: CoursesContainerComponent},
-    {path: 'courses', component: CoursesContainerComponent},
+    ...COURSES_ROUTES,
+    {path: '', component: HomeComponent},
     {path: '**', component: NoContentComponent}
 ];
