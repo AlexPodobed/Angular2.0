@@ -6,5 +6,13 @@ import {Component} from '@angular/core';
     templateUrl: './navbar.component.html'
 })
 export class NavbarComponent {
+    public opened: boolean;
 
+    constructor() {
+        this.opened = false;
+    }
+
+    public toggleMenu(): void {
+        this.opened = !this.opened;
+    }
 }

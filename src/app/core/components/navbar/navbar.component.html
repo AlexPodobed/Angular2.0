@@ -1,6 +1,8 @@
-<nav class="navbar navbar-inverse bg-inverse navbar-toggleable-md">
+<nav class="navbar navbar-inverse bg-inverse navbar-toggleable-sm">
     <button class="navbar-toggler navbar-toggler-right"
-            type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            (click)="toggleMenu()"
+            type="button"
+            aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -8,7 +10,7 @@
         <app-logo></app-logo>
     </a>
 
-    <div class="collapse navbar-collapse">
+    <div class="collapse navbar-collapse" [ngClass]="{'show': opened}">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
                 <a class="nav-link" href="#">Courses</a>
