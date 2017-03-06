@@ -2,9 +2,11 @@ import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
 import {NgModule, ApplicationRef} from '@angular/core';
+import {RouterModule} from '@angular/router';
 import {removeNgStyles, createNewHosts, createInputTransfer} from '@angularclass/hmr';
 import {ENV_PROVIDERS} from './environment';
 
+import {ROUTES} from './app.routes';
 // App is our top level component
 import {AppComponent} from './app.component';
 
@@ -13,6 +15,7 @@ import {CoursesModule} from './features/courses';
 
 // Components
 import {FooterModule, HeaderModule} from './core/components';
+import {NoContentComponent} from './features/no-content';
 
 // Services
 import {AppState} from './core/services';
@@ -27,12 +30,13 @@ const APP_PROVIDERS = [
  */
 @NgModule({
     bootstrap: [AppComponent],
-    declarations: [AppComponent],
+    declarations: [AppComponent, NoContentComponent],
     imports: [
         // import Angular's modules
         BrowserModule,
         FormsModule,
         HttpModule,
+        RouterModule.forRoot(ROUTES, {useHash: false}),
         // commons
         HeaderModule,
         FooterModule,
