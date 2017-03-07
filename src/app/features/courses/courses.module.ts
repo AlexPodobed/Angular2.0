@@ -8,6 +8,8 @@ import {CourseDetailsComponent} from './course-details';
 import {CourseFormComponent} from './course-form';
 import {CourseSearchComponent} from './course-search';
 
+import {CourseService} from './shared/course.service';
+
 const COMPONENTS = [
     CoursesContainerComponent,
     CourseDetailsComponent,
@@ -24,7 +26,7 @@ const COMPONENTS = [
         FormsModule,
         CommonModule
     ],
-    providers: [],
+    providers: [CourseService],
     exports: COMPONENTS
 })
 

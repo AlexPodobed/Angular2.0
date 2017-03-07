@@ -1,15 +1,15 @@
 <div class="course-item row no-gutters">
     <div class="col-md-10 col-xs-12">
         <h4>
-            <span class="course-item__title">Video course </span> |
-            <span class="course-item__duration">1h 28min</span>
+            <span class="course-item__title">{{course.title}} </span> |
+            <span class="course-item__duration">{{course.duration | date:'HH:mm:ss'}}</span>
 
-            <small class="text-muted">date</small>
+            <small class="text-muted">{{course.createdAt | date}}</small>
         </h4>
-        <p class="course-item__description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab alias eius esse eveniet, facilis fugit iste itaque iusto officiis voluptatibus. Animi deleniti deserunt, dignissimos dolor libero repellat tempore voluptate. Neque!</p>
+        <p class="course-item__description">{{course.description}}</p>
     </div>
     <div class="col-md-2 col-xs-12">
-        <button type="button" class="btn btn-block btn-outline-secondary">Edit course</button>
-        <button type="button" class="btn btn-block btn-outline-danger">Delete</button>
+        <button (click)="edit()" type="button" class="btn btn-block btn-outline-secondary">Edit course</button>
+        <button (click)="remove()" type="button" class="btn btn-block btn-outline-danger">Delete</button>
     </div>
 </div>

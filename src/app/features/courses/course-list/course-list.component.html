@@ -1,7 +1,3 @@
 <section>
-    <course-item></course-item>
-    <course-item></course-item>
-    <course-item></course-item>
-    <course-item></course-item>
-    <course-item></course-item>
+    <course-item *ngFor="let course of courseItems" [item]="course"></course-item>
 </section>
