@@ -7,11 +7,13 @@ import {CoursesContainerComponent} from './courses-container';
 import {CourseDetailsComponent} from './course-details';
 import {CourseFormComponent} from './course-form';
 import {CourseSearchComponent} from './course-search';
+import {CoursesToolboxComponent} from './courses-toolbox';
 
 import {CourseService} from './shared/course.service';
 
 const COMPONENTS = [
     CoursesContainerComponent,
+    CoursesToolboxComponent,
     CourseDetailsComponent,
     CourseSearchComponent,
     CourseFormComponent,

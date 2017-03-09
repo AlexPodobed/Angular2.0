@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CourseService} from '../shared/course.service';
 import {ICourse} from '../shared/course.model';
 
@@ -7,18 +7,26 @@ import {ICourse} from '../shared/course.model';
     styles: [require('./courses-container.scss')],
     templateUrl: './courses-container.component.html'
 })
-export class CoursesContainerComponent {
+export class CoursesContainerComponent implements OnInit {
     public courses: ICourse[];
 
     constructor(private courseService: CourseService) {
-        this.courses = courseService.getCourses();
+        this.courses = [];
+    }
+
+    ngOnInit() {
+        this.courses = this.courseService.getCourses();
     }
 
     public removeCourse({id}): void {
-        console.log(`course ${id} will be removed`);
+        this.courseService.remove(id);
     }
 
     public editCourse({course}: { course: ICourse }): void {
-        console.log(`course ${course.title} will be updated`);
+        this.courseService.edit(course);
+    }
+
+    public searchCourse({query}: { query: string }): void {
+        this.courseService.findByQuery(query);
     }
 }

@@ -38,4 +38,18 @@ export class CourseService {
             }
         ];
     }
+
+    public remove(id: number): void {
+        console.log(`course ${id} will be removed`);
+    }
+
+    public edit(course: ICourse): void {
+        console.log(`course ${course.title} will be updated`);
+    }
+
+    public findByQuery(query:string): ICourse[]{
+        console.log(`search will be performed by ${query}`);
+
+        return [];
+    }
 }
