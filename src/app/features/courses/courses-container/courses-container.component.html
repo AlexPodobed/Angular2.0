@@ -10,5 +10,7 @@
             </button>
         </div>
     </section>
-    <course-list [items]="courses"></course-list>
+    <course-list [items]="courses"
+                 (onEdit)="editCourse($event)"
+                 (onRemove)="removeCourse($event)"></course-list>
 </article>

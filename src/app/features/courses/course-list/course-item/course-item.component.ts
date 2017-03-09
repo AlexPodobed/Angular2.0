@@ -9,17 +9,17 @@ import {ICourse} from '../../shared/course.model';
 export class CourseItemComponent {
     @Input('item') public course: ICourse;
     @Output('onRemoved') public onRemoved = new EventEmitter();
-    @Output('onEdit') public onEdit = new EventEmitter();
+    @Output('onEdited') public onEdited = new EventEmitter();
 
-    remove() {
+    public remove() {
         this.onRemoved.emit({
             id: this.course.id
-        })
+        });
     }
 
-    edit() {
-        this.onEdit.emit({
+    public edit() {
+        this.onEdited.emit({
             course: this.course
-        })
+        });
     }
 }

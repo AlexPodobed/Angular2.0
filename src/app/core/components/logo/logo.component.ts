@@ -6,5 +6,6 @@ import {Component} from '@angular/core';
     styles: [require('./logo.component.scss')]
 })
 export class LogoComponent {
-
+    public logoImgPath: string = '/assets/img/angular-logo.png';
+    public logoHeading: string = 'Logo';
 }

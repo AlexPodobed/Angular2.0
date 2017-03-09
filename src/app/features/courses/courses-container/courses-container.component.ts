@@ -13,4 +13,12 @@ export class CoursesContainerComponent {
     constructor(private courseService: CourseService) {
         this.courses = courseService.getCourses();
     }
+
+    public removeCourse({id}): void {
+        console.log(`course ${id} will be removed`);
+    }
+
+    public editCourse({course}: { course: ICourse }): void {
+        console.log(`course ${course.title} will be updated`);
+    }
 }
