@@ -6,5 +6,5 @@ import {Component, Output, EventEmitter} from '@angular/core';
     templateUrl: './courses-toolbox.component.html'
 })
 export class CoursesToolboxComponent {
-    @Output() public onSearch = new EventEmitter();
+    @Output() public onSearch = new EventEmitter<string>();
 }

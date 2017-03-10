@@ -7,8 +7,8 @@ import {ICourse} from '../shared/course.model';
 })
 export class CourseListComponent implements OnInit {
     @Input('items') public courseItems: ICourse[];
-    @Output() public onRemove = new EventEmitter();
-    @Output() public onEdit = new EventEmitter();
+    @Output() public onRemove = new EventEmitter<number>();
+    @Output() public onEdit = new EventEmitter<ICourse>();
 
     ngOnInit() {
         console.log(this.courseItems);

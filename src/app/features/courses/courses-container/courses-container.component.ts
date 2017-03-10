@@ -19,18 +19,18 @@ export class CoursesContainerComponent implements OnInit {
         this.courses = this.courseService.getCourses();
     }
 
-    public removeCourse({id}): void {
+    public removeCourse(id: number): void {
         this.courseService.remove(id).then(() => {
             let index: number = findIndex(this.courses, {id});
             this.courses.splice(index, 1);
         })
     }
 
-    public editCourse({course}: { course: ICourse }): void {
+    public editCourse(course: ICourse): void {
         this.courseService.edit(course);
     }
 
-    public searchCourse({query}: { query: string }): void {
+    public searchCourse(query: string): void {
         this.courseService.findByQuery(query);
     }
 }

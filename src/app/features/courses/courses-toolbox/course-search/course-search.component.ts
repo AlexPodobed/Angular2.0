@@ -6,7 +6,7 @@ import {Component, EventEmitter, Output} from '@angular/core';
     templateUrl: './course-search.component.html'
 })
 export class CourseSearchComponent {
-    @Output() public onSearch = new EventEmitter();
+    @Output() public onSearch = new EventEmitter<string>();
     public searchQuery: string;
 
     constructor() {
@@ -14,9 +14,7 @@ export class CourseSearchComponent {
     }
 
     public findCourse(): void {
-        this.onSearch.emit({
-            query: this.searchQuery
-        });
+        this.onSearch.emit(this.searchQuery);
         this.searchQuery = '';
     }
 
