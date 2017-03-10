@@ -12,16 +12,19 @@ export class CoursesContainerComponent implements OnInit, OnDestroy {
     public courses: ICourse[];
     public subscription: Subscription;
 
-    constructor(private courseService: CourseService, private coursesStateService: CoursesStateService) {
+    constructor(private courseService: CourseService,
+                private coursesStateService: CoursesStateService) {
         this.courses = [];
     }
 
-    ngOnInit() {
+    public ngOnInit() {
         this.courses = this.courseService.getCourses();
-        this.subscription = this.coursesStateService.courseState$.subscribe(this.onStateChange.bind(this));
+        this.subscription = this.coursesStateService.courseState$.subscribe(
+            this.onStateChange.bind(this)
+        );
     }
 
-    ngOnDestroy() {
+    public ngOnDestroy() {
         this.subscription.unsubscribe();
     }
 
@@ -36,6 +39,8 @@ export class CoursesContainerComponent implements OnInit, OnDestroy {
             case ACTIONS.SEARCH:
                 this.searchCourse(state.query);
                 break;
+            default:
+                console.log(`unhandled action: ${state.action}`);
         }
     }
 
@@ -50,7 +55,8 @@ export class CoursesContainerComponent implements OnInit, OnDestroy {
     }
 
     private searchCourse(query: string): void {
-        this.courseService.findByQuery(query)
-            .then(courses => this.courses = courses)
+        this.courseService
+            .findByQuery(query)
+            .then((courses) => this.courses = courses);
     }
 }

@@ -15,7 +15,6 @@ export class CourseSearchComponent {
 
     public findCourse(): void {
         this.onSearch.emit(this.searchQuery);
-        this.searchQuery = '';
     }
 
 }

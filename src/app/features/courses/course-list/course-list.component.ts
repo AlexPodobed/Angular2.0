@@ -13,7 +13,7 @@ export class CourseListComponent implements OnInit {
     constructor(private coursesStateService: CoursesStateService) {
     }
 
-    ngOnInit() {
+    public ngOnInit() {
         console.log(this.courseItems);
     }
 

@@ -1,12 +1,11 @@
-<div class="input-group">
-    <input type="text"
-           [(ngModel)]="searchQuery"
-           class="form-control"
-           placeholder="Search for...">
-    <span class="input-group-btn">
-        <button class="btn btn-secondary" type="button" (click)="findCourse()">
-            <i class="fa fa-search" aria-hidden="true"></i>
-            Find
-        </button>
+<form name="searchForm" (submit)="findCourse()">
+    <div class="input-group">
+        <input type="text" name="query"
+               [(ngModel)]="searchQuery"
+               class="form-control"
+               placeholder="Search for...">
+        <span class="input-group-btn">
+        <button class="btn btn-secondary" type="submit"> <i class="fa fa-search" aria-hidden="true"></i> Find </button>
       </span>
-</div>
+    </div>
+</form>

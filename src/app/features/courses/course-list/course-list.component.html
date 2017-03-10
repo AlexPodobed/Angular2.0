@@ -3,4 +3,7 @@
                  (onEdited)="edit($event)"
                  (onRemoved)="remove($event)">
     </course-item>
+    <no-results *ngIf="!courseItems.length">
+        <p>Oops.. Nothing found </p>
+    </no-results>
 </section>
