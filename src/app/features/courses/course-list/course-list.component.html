@@ -1,6 +1,6 @@
 <section>
     <course-item *ngFor="let course of courseItems" [item]="course"
-                 (onEdited)="onEdit.emit($event)"
-                 (onRemoved)="onRemove.emit($event)">
+                 (onEdited)="edit($event)"
+                 (onRemoved)="remove($event)">
     </course-item>
 </section>

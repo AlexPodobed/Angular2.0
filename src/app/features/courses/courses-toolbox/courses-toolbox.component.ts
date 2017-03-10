@@ -1,4 +1,5 @@
-import {Component, Output, EventEmitter} from '@angular/core';
+import {Component} from '@angular/core';
+import {CoursesStateService} from '../shared/courses-state.service';
 
 @Component({
     selector: 'courses-toolbox',
@@ -6,5 +7,9 @@ import {Component, Output, EventEmitter} from '@angular/core';
     templateUrl: './courses-toolbox.component.html'
 })
 export class CoursesToolboxComponent {
-    @Output() public onSearch = new EventEmitter<string>();
+    constructor(private coursesStateService: CoursesStateService) {}
+
+    public search(query: string) {
+        this.coursesStateService.searchCourses(query);
+    }
 }

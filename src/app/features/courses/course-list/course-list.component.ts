@@ -1,5 +1,7 @@
-import {Component, Input, Output, OnInit, EventEmitter} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ICourse} from '../shared/course.model';
+
+import {CoursesStateService} from '../shared';
 
 @Component({
     selector: 'course-list',
@@ -7,10 +9,19 @@ import {ICourse} from '../shared/course.model';
 })
 export class CourseListComponent implements OnInit {
     @Input('items') public courseItems: ICourse[];
-    @Output() public onRemove = new EventEmitter<number>();
-    @Output() public onEdit = new EventEmitter<ICourse>();
+
+    constructor(private coursesStateService: CoursesStateService) {
+    }
 
     ngOnInit() {
         console.log(this.courseItems);
+    }
+
+    remove(course: ICourse) {
+        this.coursesStateService.removeCourse(course);
+    }
+
+    edit(course: ICourse) {
+        this.coursesStateService.editCourse(course);
     }
 }
