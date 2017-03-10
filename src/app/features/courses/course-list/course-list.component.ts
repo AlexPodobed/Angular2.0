@@ -8,7 +8,7 @@ import {CoursesStateService} from '../shared';
     templateUrl: './course-list.component.html'
 })
 export class CourseListComponent implements OnInit {
-    @Input('items') public courseItems: ICourse[];
+    @Input() public courseItems: ICourse[];
 
     constructor(private coursesStateService: CoursesStateService) {
     }
@@ -17,11 +17,11 @@ export class CourseListComponent implements OnInit {
         console.log(this.courseItems);
     }
 
-    remove(course: ICourse) {
+    public remove(course: ICourse) {
         this.coursesStateService.removeCourse(course);
     }
 
-    edit(course: ICourse) {
+    public edit(course: ICourse) {
         this.coursesStateService.editCourse(course);
     }
 }

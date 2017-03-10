@@ -7,7 +7,7 @@ import {ICourse} from '../../shared/course.model';
     templateUrl: './course-item.component.html'
 })
 export class CourseItemComponent {
-    @Input('item') public course: ICourse;
+    @Input() public course: ICourse;
     @Output() public onRemoved = new EventEmitter<ICourse>();
     @Output() public onEdited = new EventEmitter<ICourse>();
 

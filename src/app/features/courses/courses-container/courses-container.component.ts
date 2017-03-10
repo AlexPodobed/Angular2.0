@@ -18,7 +18,7 @@ export class CoursesContainerComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.courses = this.courseService.getCourses();
-        this.subscription = this.coursesStateService.courseState$.subscribe(this.onStateChange.bind(this))
+        this.subscription = this.coursesStateService.courseState$.subscribe(this.onStateChange.bind(this));
     }
 
     ngOnDestroy() {

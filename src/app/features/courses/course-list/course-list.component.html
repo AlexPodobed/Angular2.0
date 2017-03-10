@@ -1,5 +1,5 @@
 <section>
-    <course-item *ngFor="let course of courseItems" [item]="course"
+    <course-item *ngFor="let course of courseItems" [course]="course"
                  (onEdited)="edit($event)"
                  (onRemoved)="remove($event)">
     </course-item>
