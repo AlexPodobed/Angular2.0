@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {CourseService} from '../shared/course.service';
 import {ICourse} from '../shared/course.model';
+import {findIndex} from 'lodash';
 
 @Component({
     selector: 'courses-container',
@@ -19,7 +20,10 @@ export class CoursesContainerComponent implements OnInit {
     }
 
     public removeCourse({id}): void {
-        this.courseService.remove(id);
+        this.courseService.remove(id).then(() => {
+            let index: number = findIndex(this.courses, {id});
+            this.courses.splice(index, 1);
+        })
     }
 
     public editCourse({course}: { course: ICourse }): void {

@@ -171,6 +171,7 @@ module.exports = function (options) {
             '@angular/http',
             '@angular/router',
             '@angularclass/hmr',
+            'lodash',
             'rxjs',
           ]
         },

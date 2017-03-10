@@ -39,15 +39,20 @@ export class CourseService {
         ];
     }
 
-    public remove(id: number): void {
+    public remove(id: number): Promise<number> {
         console.log(`course ${id} will be removed`);
+        return new Promise((resolve, reject) => {
+            if (window.confirm(`Are u sure?`)) {
+                resolve(id);
+            }
+        })
     }
 
     public edit(course: ICourse): void {
         console.log(`course ${course.title} will be updated`);
     }
 
-    public findByQuery(query:string): ICourse[]{
+    public findByQuery(query: string): ICourse[] {
         console.log(`search will be performed by ${query}`);
 
         return [];
