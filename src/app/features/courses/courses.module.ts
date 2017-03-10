@@ -1,35 +1,20 @@
 import {NgModule} from '@angular/core';
-import {ReactiveFormsModule, FormsModule} from '@angular/forms';
-import {CommonModule} from '@angular/common';
 
-import {CourseItemComponent, CourseListComponent} from './course-list';
-import {CoursesContainerComponent} from './courses-container';
-import {CourseDetailsComponent} from './course-details';
-import {CourseFormComponent} from './course-form';
-import {CourseSearchComponent} from './course-search';
-import {CoursesToolboxComponent} from './courses-toolbox';
+import {CoursesContainerModule} from './courses-container';
+import {CourseDetailsModule} from './course-details';
+import {CourseFormModule} from './course-form';
 
 import {CourseService} from './shared/course.service';
 
-const COMPONENTS = [
-    CoursesContainerComponent,
-    CoursesToolboxComponent,
-    CourseDetailsComponent,
-    CourseSearchComponent,
-    CourseFormComponent,
-    CourseListComponent,
-    CourseItemComponent
-];
-
 @NgModule({
-    declarations: COMPONENTS,
+    declarations: [],
     imports: [
-        ReactiveFormsModule,
-        FormsModule,
-        CommonModule
+        CoursesContainerModule,
+        CourseDetailsModule,
+        CourseFormModule
     ],
     providers: [CourseService],
-    exports: COMPONENTS
+    exports: []
 })
 
 export class CoursesModule {
