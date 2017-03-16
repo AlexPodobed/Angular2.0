@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ICourse } from './course.model';
-import { filter } from 'lodash';
+import { ICourse } from '../course.model';
+import { filter, find } from 'lodash';
 
 /* tslint:disable */
 @Injectable()
@@ -39,30 +39,37 @@ export class CourseService {
         }
     ];
 
-    public getCourses(): ICourse[] {
+    public getAll(): ICourse[] {
         return this.COURSES;
+    }
+
+    public getById(id: number):ICourse {
+        return find(this.COURSES, (course: ICourse) => course.id === id);
+    }
+
+    public save(course: ICourse){
+        console.log(`course ${course.title} should be created`);
+    }
+
+    public update(course: ICourse): void {
+        console.log(`course ${course.title} will be updated`);
     }
 
     public remove(id: number): Promise<number> {
         console.log(`course ${id} will be removed`);
+
         return new Promise((resolve, reject) => {
             if (window.confirm(`Are u sure?`)) {
                 resolve(id);
             }
-        })
-    }
-
-    public edit(course: ICourse): void {
-        console.log(`course ${course.title} will be updated`);
+        });
     }
 
     public findByQuery(query: string): Promise<ICourse[]> {
         console.log(`search will be performed by ${query}`);
 
         return new Promise((resolve) => {
-            let filtered = filter(this.COURSES, (course: ICourse) => {
-                return course.title.indexOf(query) !== -1
-            });
+            let filtered = filter(this.COURSES, (course: ICourse) => course.title.indexOf(query) !== -1);
 
             resolve(filtered);
         })

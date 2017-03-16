@@ -18,7 +18,7 @@ export class CoursesContainerComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit() {
-        this.courses = this.courseService.getCourses();
+        this.courses = this.courseService.getAll();
         this.subscription = this.coursesStateService.courseState$.subscribe(
             this.onStateChange.bind(this)
         );
@@ -51,7 +51,7 @@ export class CoursesContainerComponent implements OnInit, OnDestroy {
     }
 
     private editCourse(course: ICourse): void {
-        this.courseService.edit(course);
+        this.courseService.update(course);
     }
 
     private searchCourse(query: string): void {

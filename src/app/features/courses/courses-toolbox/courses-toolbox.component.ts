@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CoursesStateService } from '../shared/courses-state.service';
+import { CoursesStateService } from '../shared';
 
 @Component({
     selector: 'courses-toolbox',

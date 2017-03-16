@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { ICourse } from './course.model';
-import { ACTIONS } from './course-actions';
+import { ICourse } from '../course.model';
+import { ACTIONS } from '../course-actions';
 
 export interface ICourseState {
     action: string;
