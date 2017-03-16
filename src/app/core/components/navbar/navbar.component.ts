@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from '../../services';
 
 @Component({
     selector: 'app-navbar',
@@ -8,8 +9,10 @@ import { Component } from '@angular/core';
 export class NavbarComponent {
     public opened: boolean;
 
-    constructor() {
+    constructor(private AuthService: AuthService) {
         this.opened = false;
+
+        console.log(AuthService.isAuthenticated());
     }
 
     public toggleMenu(): void {

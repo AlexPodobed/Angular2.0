@@ -43,11 +43,11 @@ export class CourseService {
         return this.COURSES;
     }
 
-    public getById(id: number):ICourse {
+    public getById(id: number): ICourse {
         return find(this.COURSES, (course: ICourse) => course.id === id);
     }
 
-    public save(course: ICourse){
+    public save(course: ICourse) {
         console.log(`course ${course.title} should be created`);
     }
 
