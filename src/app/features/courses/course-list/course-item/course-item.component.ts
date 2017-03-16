@@ -1,5 +1,5 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
-import {ICourse} from '../../shared/course.model';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { ICourse } from '../../shared/course.model';
 
 @Component({
     selector: 'course-item',

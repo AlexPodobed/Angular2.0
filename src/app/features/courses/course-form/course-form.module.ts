@@ -1,5 +1,5 @@
-import {NgModule} from '@angular/core';
-import {CourseFormComponent} from './course-form.component';
+import { NgModule } from '@angular/core';
+import { CourseFormComponent } from './course-form.component';
 
 @NgModule({
     declarations: [CourseFormComponent],

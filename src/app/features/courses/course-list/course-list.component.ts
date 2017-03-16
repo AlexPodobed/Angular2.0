@@ -1,7 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {ICourse} from '../shared/course.model';
+import { Component, Input, OnInit } from '@angular/core';
+import { ICourse } from '../shared/course.model';
 
-import {CoursesStateService} from '../shared';
+import { CoursesStateService } from '../shared';
 
 @Component({
     selector: 'course-list',

@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {CoursesStateService} from '../shared/courses-state.service';
+import { Component } from '@angular/core';
+import { CoursesStateService } from '../shared/courses-state.service';
 
 @Component({
     selector: 'courses-toolbox',
@@ -7,7 +7,8 @@ import {CoursesStateService} from '../shared/courses-state.service';
     templateUrl: './courses-toolbox.component.html'
 })
 export class CoursesToolboxComponent {
-    constructor(private coursesStateService: CoursesStateService) {}
+    constructor(private coursesStateService: CoursesStateService) {
+    }
 
     public search(query: string) {
         this.coursesStateService.searchCourses(query);

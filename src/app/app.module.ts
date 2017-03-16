@@ -1,25 +1,25 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {FormsModule} from '@angular/forms';
-import {HttpModule} from '@angular/http';
-import {NgModule, ApplicationRef} from '@angular/core';
-import {RouterModule} from '@angular/router';
-import {removeNgStyles, createNewHosts, createInputTransfer} from '@angularclass/hmr';
-import {ENV_PROVIDERS} from './environment';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
+import { NgModule, ApplicationRef } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularclass/hmr';
+import { ENV_PROVIDERS } from './environment';
 
-import {ROUTES} from './app.routes';
+import { ROUTES } from './app.routes';
 // App is our top level component
-import {AppComponent} from './app.component';
+import { AppComponent } from './app.component';
 
 // Features
-import {CoursesModule} from './features/courses';
+import { CoursesModule } from './features/courses';
 
 // Components
-import {FooterModule, HeaderModule} from './core/components';
-import {NoContentComponent} from './features/no-content';
-import {HomeComponent} from './features/home';
+import { FooterModule, HeaderModule } from './core/components';
+import { NoContentComponent } from './features/no-content';
+import { HomeComponent } from './features/home';
 
 // Services
-import {AppState} from './core/services';
+import { AppState } from './core/services';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -37,7 +37,7 @@ const APP_PROVIDERS = [
         BrowserModule,
         FormsModule,
         HttpModule,
-        RouterModule.forRoot(ROUTES, {useHash: false}),
+        RouterModule.forRoot(ROUTES, { useHash: false }),
         // commons
         HeaderModule,
         FooterModule,

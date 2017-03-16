@@ -1,7 +1,7 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {CourseService, CoursesStateService, ICourseState, ACTIONS} from '../shared';
-import {ICourse} from '../shared/course.model';
-import {Subscription}   from 'rxjs/Subscription';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { CourseService, CoursesStateService, ICourseState, ACTIONS } from '../shared';
+import { ICourse } from '../shared/course.model';
+import { Subscription }   from 'rxjs/Subscription';
 
 @Component({
     selector: 'courses-container',

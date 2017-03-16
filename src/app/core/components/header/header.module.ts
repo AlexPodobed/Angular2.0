@@ -1,6 +1,6 @@
-import {NgModule} from '@angular/core';
-import {HeaderComponent} from './header.component';
-import {NavbarModule} from '../navbar';
+import { NgModule } from '@angular/core';
+import { HeaderComponent } from './header.component';
+import { NavbarModule } from '../navbar';
 
 @NgModule({
     declarations: [HeaderComponent],

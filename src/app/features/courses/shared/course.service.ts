@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
-import {ICourse} from './course.model';
-import {filter} from 'lodash';
+import { Injectable } from '@angular/core';
+import { ICourse } from './course.model';
+import { filter } from 'lodash';
 
 /* tslint:disable */
 @Injectable()
