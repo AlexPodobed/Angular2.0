@@ -20,12 +20,13 @@ import { NoContentComponent } from './features/no-content';
 import { HomeComponent } from './features/home';
 
 // Services
-import { AppState, AuthService } from './core/services';
+import { AppState, AuthService, StorageService } from './core/services';
 
 // Application wide providers
 const APP_PROVIDERS = [
     AppState,
-    AuthService
+    AuthService,
+    StorageService
 ];
 
 /**

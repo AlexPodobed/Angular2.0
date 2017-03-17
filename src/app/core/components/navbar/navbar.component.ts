@@ -33,7 +33,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private updateAuthInfo(): void {
         this.isLoggedin = this.AuthService.isAuthenticated();
         this.user = this.AuthService.user;
-        console.log(this.AuthService.token)
     }
 
     public logout(e): void {

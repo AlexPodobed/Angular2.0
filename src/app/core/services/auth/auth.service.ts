@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
 import { IUser, IToken } from '../../entities';
+import { StorageService } from '../storage/storage.service';
 
 interface IAuthResponse {
     user: IUser;
@@ -15,44 +16,34 @@ export class AuthService {
     private AUTH_TOKEN_KEY: string = 'token';
     private _user: IUser;
     private _token: IToken;
-    private storage: any;
 
     public authState$ = this.authStateSource.asObservable();
 
-    constructor() {
+    constructor(private storage: StorageService) {
         console.log('Auth service initialized');
-        this.storage = localStorage;
     }
 
     set user(user: IUser) {
         this._user = user;
 
-        if (user === null) {
-            this.storage.removeItem(this.AUTH_USER_KEY);
-        } else {
-            this.storage.setItem(this.AUTH_USER_KEY, JSON.stringify(user));
-        }
+        this.storage.save(this.AUTH_USER_KEY, user);
     }
 
     get user(): IUser {
         if (!this._user) {
-            this._user = JSON.parse(this.storage.getItem(this.AUTH_USER_KEY));
+            this._user = this.storage.get(this.AUTH_USER_KEY);
         }
         return this._user;
     }
 
     set token(token: IToken) {
         this._token = token;
-        if (token === null) {
-            this.storage.removeItem(this.AUTH_TOKEN_KEY);
-        } else {
-            this.storage.setItem(this.AUTH_TOKEN_KEY, JSON.stringify(token));
-        }
+        this.storage.save(this.AUTH_TOKEN_KEY, token);
     }
 
     get token(): IToken {
         if (!this._token) {
-            this._token = JSON.parse(this.storage.getItem(this.AUTH_TOKEN_KEY));
+            this._token = this.storage.get(this.AUTH_TOKEN_KEY);
         }
         return this._token;
     }

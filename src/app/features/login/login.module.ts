@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { LoginFormModule } from './login-form'
+import { LoginFormModule } from './login-form';
 import { AuthService } from '../../core/services';
 
 @NgModule({
