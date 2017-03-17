@@ -12,6 +12,7 @@ import { AppComponent } from './app.component';
 
 // Features
 import { CoursesModule } from './features/courses';
+import { LoginModule } from './features/login';
 
 // Components
 import { FooterModule, HeaderModule } from './core/components';
@@ -43,7 +44,8 @@ const APP_PROVIDERS = [
         HeaderModule,
         FooterModule,
         // features
-        CoursesModule
+        CoursesModule,
+        LoginModule
     ],
     providers: [
         // expose our Services and Providers into Angular's dependency injection

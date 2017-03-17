@@ -1,18 +1,23 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
+
 import { IUser, IToken } from '../../entities';
 
 interface IAuthResponse {
     user: IUser;
     token: IToken;
-};
+}
 
 @Injectable()
 export class AuthService {
+    private authStateSource = new Subject<IAuthResponse>();
     private AUTH_USER_KEY: string = 'user';
     private AUTH_TOKEN_KEY: string = 'token';
     private _user: IUser;
     private _token: IToken;
     private storage: any;
+
+    public authState$ = this.authStateSource.asObservable();
 
     constructor() {
         console.log('Auth service initialized');
@@ -51,6 +56,7 @@ export class AuthService {
         }
         return this._token;
     }
+
     private get uuid(): string {
         /* tslint:disable */
         return 'xxxxxxxx-xxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
@@ -78,10 +84,14 @@ export class AuthService {
     }
 
     private makeLoginRequest(email: string, password: string): Promise<IAuthResponse> {
-        return Promise.resolve({
-            user: this.getUserMock(email, password),
-            token: this.getTokenMock()
-        });
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                return resolve({
+                    user: this.getUserMock(email, password),
+                    token: this.getTokenMock()
+                });
+            }, 400);
+        })
     }
 
     public login(email: string, password: string): Promise<any> {
@@ -89,6 +99,8 @@ export class AuthService {
             .then(({ user, token }: IAuthResponse) => {
                 this.user = user;
                 this.token = token;
+
+                this.authStateSource.next({ user, token });
             });
     }
 
@@ -97,10 +109,12 @@ export class AuthService {
             .then(() => {
                 this.user = null;
                 this.token = null;
+
+                this.authStateSource.next({ user: null, token: null });
             });
     }
 
     public isAuthenticated(): boolean {
-        return Boolean(this._user) && Boolean(this._token);
+        return Boolean(this.user) && Boolean(this.token);
     }
 }
