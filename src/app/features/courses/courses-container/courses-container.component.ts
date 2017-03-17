@@ -1,5 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CourseService, CoursesStateService, ICourseState, ACTIONS } from '../shared';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
+import { CourseService, CoursesStateService, ICourseState, ACTIONS, ConfirmModalModalComponent } from '../shared';
 import { ICourse } from '../shared/course.model';
 import { Subscription }   from 'rxjs/Subscription';
 
@@ -12,8 +14,9 @@ export class CoursesContainerComponent implements OnInit, OnDestroy {
     public courses: ICourse[];
     public subscription: Subscription;
 
-    constructor(private courseService: CourseService,
-                private coursesStateService: CoursesStateService) {
+    constructor(private coursesStateService: CoursesStateService,
+                private courseService: CourseService,
+                private modalService: NgbModal) {
         this.courses = [];
     }
 
@@ -31,7 +34,9 @@ export class CoursesContainerComponent implements OnInit, OnDestroy {
     private onStateChange(state: ICourseState) {
         switch (state.action) {
             case ACTIONS.REMOVE:
-                this.removeCourse(state.course);
+                this.openConfirmModal(state.course)
+                    .then((course) => this.removeCourse(course))
+                    .catch(err => console.log(err));
                 break;
             case ACTIONS.EDIT:
                 this.editCourse(state.course);
@@ -44,9 +49,15 @@ export class CoursesContainerComponent implements OnInit, OnDestroy {
         }
     }
 
+    private openConfirmModal(course: ICourse) {
+        const modalRef = this.modalService.open(ConfirmModalModalComponent);
+        modalRef.componentInstance.course = course;
+
+        return modalRef.result;
+    }
+
     private removeCourse(course: ICourse): void {
-        this.courseService
-            .remove(course.id)
+        this.courseService.remove(course.id)
             .then(() => this.courses.splice(this.courses.indexOf(course), 1));
     }
 

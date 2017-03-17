@@ -56,13 +56,7 @@ export class CourseService {
     }
 
     public remove(id: number): Promise<number> {
-        console.log(`course ${id} will be removed`);
-
-        return new Promise((resolve, reject) => {
-            if (window.confirm(`Are u sure?`)) {
-                resolve(id);
-            }
-        });
+        return Promise.resolve(id);
     }
 
     public findByQuery(query: string): Promise<ICourse[]> {

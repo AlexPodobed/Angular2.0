@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { NgModule, ApplicationRef } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularclass/hmr';
 import { ENV_PROVIDERS } from './environment';
 
@@ -41,6 +42,7 @@ const APP_PROVIDERS = [
         FormsModule,
         HttpModule,
         RouterModule.forRoot(ROUTES, { useHash: false }),
+        NgbModule.forRoot(),
         // commons
         HeaderModule,
         FooterModule,

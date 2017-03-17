@@ -4,11 +4,15 @@ import { CourseListModule } from '../course-list';
 import { CoursesToolboxModule } from '../courses-toolbox';
 import { CoursesContainerComponent } from './courses-container.component';
 
-import { CoursesStateService } from '../shared';
+import { CoursesStateService, CourseModalsModule } from '../shared';
 
 @NgModule({
     declarations: [CoursesContainerComponent],
-    imports: [CourseListModule, CoursesToolboxModule],
+    imports: [
+        CourseListModule,
+        CoursesToolboxModule,
+        CourseModalsModule
+    ],
     providers: [CoursesStateService],
     exports: [CoursesContainerComponent]
 })
