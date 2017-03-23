@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import { Observable, Subject } from 'rxjs';
 
 import { IUser, IToken } from '../../entities';
 import { StorageService } from '../storage/storage.service';
@@ -11,16 +11,17 @@ interface IAuthResponse {
 
 @Injectable()
 export class AuthService {
-    private authStateSource = new Subject<IAuthResponse>();
+    public authState$: Observable<IAuthResponse>;
+
+    private authStateSource: Subject<IAuthResponse>;
     private AUTH_USER_KEY: string = 'user';
     private AUTH_TOKEN_KEY: string = 'token';
     private _user: IUser;
     private _token: IToken;
 
-    public authState$ = this.authStateSource.asObservable();
-
     constructor(private storage: StorageService) {
-        console.log('Auth service initialized');
+        this.authStateSource = new Subject();
+        this.authState$= this.authStateSource.asObservable();
     }
 
     set user(user: IUser) {
@@ -82,7 +83,7 @@ export class AuthService {
                     token: this.getTokenMock()
                 });
             }, 400);
-        })
+        });
     }
 
     public login(email: string, password: string): Promise<any> {
