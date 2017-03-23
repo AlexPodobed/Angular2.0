@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
 
 import { CourseListModule } from '../course-list';
-import { CoursesToolboxModule } from '../courses-toolbox';
+import { CourseSearchModule } from '../course-search';
 import { CoursesContainerComponent } from './courses-container.component';
 
-import { CoursesStateService, CourseModalsModule } from '../shared';
+import { CourseModalsModule } from '../shared';
 
 @NgModule({
     declarations: [CoursesContainerComponent],
     imports: [
         CourseListModule,
-        CoursesToolboxModule,
+        CourseSearchModule,
         CourseModalsModule
     ],
-    providers: [CoursesStateService],
+    providers: [],
     exports: [CoursesContainerComponent]
 })
 export class CoursesContainerModule {

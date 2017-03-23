@@ -1,73 +1,14 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
-import { CourseService, CoursesStateService, ICourseState, ACTIONS, ConfirmModalModalComponent } from '../shared';
-import { ICourse } from '../shared/course.model';
-import { Subscription }   from 'rxjs/Subscription';
+import { Component } from '@angular/core';
 
 @Component({
     selector: 'courses-container',
     styles: [require('./courses-container.scss')],
     templateUrl: './courses-container.component.html'
 })
-export class CoursesContainerComponent implements OnInit, OnDestroy {
-    public courses: ICourse[];
-    public subscription: Subscription;
+export class CoursesContainerComponent {
+    public searchQuery: string;
 
-    constructor(private coursesStateService: CoursesStateService,
-                private courseService: CourseService,
-                private modalService: NgbModal) {
-        this.courses = [];
-    }
-
-    public ngOnInit() {
-        this.courses = this.courseService.getAll();
-        this.subscription = this.coursesStateService.courseState$.subscribe(
-            this.onStateChange.bind(this)
-        );
-    }
-
-    public ngOnDestroy() {
-        this.subscription.unsubscribe();
-    }
-
-    private onStateChange(state: ICourseState) {
-        switch (state.action) {
-            case ACTIONS.REMOVE:
-                this.openConfirmModal(state.course)
-                    .then((course) => this.removeCourse(course))
-                    .catch(err => console.log(err));
-                break;
-            case ACTIONS.EDIT:
-                this.editCourse(state.course);
-                break;
-            case ACTIONS.SEARCH:
-                this.searchCourse(state.query);
-                break;
-            default:
-                console.log(`unhandled action: ${state.action}`);
-        }
-    }
-
-    private openConfirmModal(course: ICourse) {
-        const modalRef = this.modalService.open(ConfirmModalModalComponent);
-        modalRef.componentInstance.course = course;
-
-        return modalRef.result;
-    }
-
-    private removeCourse(course: ICourse): void {
-        this.courseService.remove(course.id)
-            .then(() => this.courses.splice(this.courses.indexOf(course), 1));
-    }
-
-    private editCourse(course: ICourse): void {
-        this.courseService.update(course);
-    }
-
-    private searchCourse(query: string): void {
-        this.courseService
-            .findByQuery(query)
-            .then((courses) => this.courses = courses);
+    public search(query: string) {
+        this.searchQuery = query;
     }
 }

@@ -39,8 +39,8 @@ export class CourseService {
         }
     ];
 
-    public getAll(): ICourse[] {
-        return this.COURSES;
+    public getAll(): Promise<ICourse[]> {
+        return Promise.resolve(this.COURSES);
     }
 
     public getById(id: number): ICourse {

@@ -1,4 +1,14 @@
-<article>
-    <courses-toolbox></courses-toolbox>
-    <course-list [courseItems]="courses"></course-list>
+<article class="course-container">
+    <section class="row no-gutters course-container__bar">
+        <div class="col">
+            <course-search (onSearch)="search($event)"></course-search>
+        </div>
+        <div class="col text-right">
+            <button class="btn btn-info">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                Add Course
+            </button>
+        </div>
+    </section>
+    <course-list [query]="searchQuery"></course-list>
 </article>

@@ -1,9 +1,12 @@
-<section>
-    <course-item *ngFor="let course of courseItems" [course]="course"
-                 (onEdited)="edit($event)"
+<section *ngIf="courseList.length">
+    <course-item *ngFor="let course of courseList"
+                 [course]="course"
+                 (onUpdated)="update($event)"
                  (onRemoved)="remove($event)">
     </course-item>
-    <no-results *ngIf="!courseItems.length">
+</section>
+<section *ngIf="!courseList.length">
+    <no-results>
         <p>Oops.. Nothing found </p>
     </no-results>
 </section>

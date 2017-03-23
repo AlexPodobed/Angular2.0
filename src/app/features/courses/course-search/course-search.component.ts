@@ -7,6 +7,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class CourseSearchComponent {
     @Output() public onSearch = new EventEmitter<string>();
+
     public searchQuery: string;
 
     constructor() {

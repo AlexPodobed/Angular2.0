@@ -1,27 +1,64 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { ICourse } from '../shared/course.model';
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
-import { CoursesStateService } from '../shared';
+import { CourseService, ConfirmModalModalComponent } from '../shared';
 
 @Component({
     selector: 'course-list',
     templateUrl: './course-list.component.html'
 })
-export class CourseListComponent implements OnInit {
-    @Input() public courseItems: ICourse[];
+export class CourseListComponent implements OnInit, OnChanges {
+    @Input() public query: string;
 
-    constructor(private coursesStateService: CoursesStateService) {
+    public courseList: ICourse[];
+
+    constructor(private courseService: CourseService,
+                private modalService: NgbModal) {
     }
 
     public ngOnInit() {
-        console.log(this.courseItems);
+        this.courseList = [];
+        this.fetchCourses();
     }
 
-    public remove(course: ICourse) {
-        this.coursesStateService.removeCourse(course);
+    public ngOnChanges(changes: SimpleChanges) {
+        let queryChange = changes['query'];
+
+        if (queryChange && !queryChange.isFirstChange()) {
+            this.searchCourse(queryChange.currentValue);
+        }
     }
 
-    public edit(course: ICourse) {
-        this.coursesStateService.editCourse(course);
+    public fetchCourses(): void {
+        this.courseService.getAll()
+            .then(this.setCourseList.bind(this));
+    }
+
+    private searchCourse(query: string): void {
+        this.courseService.findByQuery(query)
+            .then(this.setCourseList.bind(this));
+    }
+
+    public setCourseList(courses: ICourse[]): void {
+        this.courseList = courses;
+    }
+
+    public remove(course: ICourse): void {
+        this.openConfirmModal(course)
+            .then(() => this.courseService.remove(course.id))
+            .then(() => this.courseList.splice(this.courseList.indexOf(course), 1))
+            .catch(() => console.log('catch rejected stage'));
+    }
+
+    public update(course: ICourse): void {
+        this.courseService.update(course);
+    }
+
+    private openConfirmModal(course: ICourse) {
+        const modalRef = this.modalService.open(ConfirmModalModalComponent);
+        modalRef.componentInstance.course = course;
+
+        return modalRef.result;
     }
 }

@@ -26,7 +26,6 @@ export class LoginFormComponent {
         this.loading = true;
         this.AuthService.login(this.email, this.password)
             .then(() => this.loading = false)
-            .then(() => this.router.navigate(['/courses']))
-
+            .then(() => this.router.navigate(['/courses']));
     }
 }
