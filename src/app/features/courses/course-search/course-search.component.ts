@@ -7,16 +7,21 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angul
     templateUrl: './course-search.component.html'
 })
 export class CourseSearchComponent {
-    @Output() public onSearch = new EventEmitter<string>();
+    @Output() public search = new EventEmitter<string>();
 
-    public searchQuery: string;
-
-    constructor() {
-        this.searchQuery = '';
+    get searchQuery(): string {
+        return this._searchQuery;
     }
 
+    set searchQuery(value: string) {
+        this._searchQuery = value;
+        this.search.emit(value);
+    }
+
+    private _searchQuery: string = '';
+
     public findCourse(): void {
-        this.onSearch.emit(this.searchQuery);
+        this.search.emit(this.searchQuery);
     }
 
 }

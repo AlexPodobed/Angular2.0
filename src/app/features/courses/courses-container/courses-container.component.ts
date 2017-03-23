@@ -9,7 +9,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 export class CoursesContainerComponent {
     public searchQuery: string;
 
-    public search(query: string) {
+    public onSearch(query: string) {
         this.searchQuery = query;
     }
 }

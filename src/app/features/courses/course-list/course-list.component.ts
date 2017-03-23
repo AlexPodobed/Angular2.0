@@ -1,11 +1,10 @@
-import {
-    Component, Input, OnInit, OnChanges, SimpleChanges, ChangeDetectionStrategy,
-    ChangeDetectorRef
-} from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { ICourse } from '../shared/course.model';
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { CourseService, ConfirmModalModalComponent } from '../shared';
+import { Observable } from 'rxjs';
+import { isEmpty } from 'lodash';
 
 @Component({
     selector: 'course-list',
@@ -15,16 +14,15 @@ import { CourseService, ConfirmModalModalComponent } from '../shared';
 export class CourseListComponent implements OnInit, OnChanges {
     @Input() public query: string;
 
-    public courseList: ICourse[];
+    public courses$: Observable<ICourse[]>;
+    public isEmpty: boolean;
 
-    constructor(private courseService: CourseService,
-                private ref: ChangeDetectorRef,
-                private modalService: NgbModal) {
+    constructor(private courseService: CourseService, private modalService: NgbModal) {
     }
 
     public ngOnInit() {
-        this.courseList = [];
-        this.fetchCourses();
+        this.courses$ = this.courseService.getAll()
+            .do((courses: ICourse[]) => this.isEmpty = isEmpty(courses));
     }
 
     public ngOnChanges(changes: SimpleChanges) {
@@ -35,25 +33,13 @@ export class CourseListComponent implements OnInit, OnChanges {
         }
     }
 
-    public fetchCourses(): void {
-        this.courseService.getAll()
-            .then(this.setCourseList.bind(this));
-    }
-
-    private searchCourse(query: string): void {
-        this.courseService.findByQuery(query)
-            .then(this.setCourseList.bind(this));
-    }
-
-    public setCourseList(courses: ICourse[]): void {
-        this.courseList = courses;
-        this.ref.markForCheck();
+    public searchCourse(query: string): void {
+        this.courseService.findByQuery(query);
     }
 
     public remove(course: ICourse): void {
         this.openConfirmModal(course)
             .then(() => this.courseService.remove(course.id))
-            .then(() => this.courseList.splice(this.courseList.indexOf(course), 1))
             .catch(() => console.log('catch rejected stage'));
     }
 

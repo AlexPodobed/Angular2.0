@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import { ICourse } from '../course.model';
-import { filter, find } from 'lodash';
+
+import { filter, find, findIndex } from 'lodash';
+import { Observable, Subject } from 'rxjs';
 
 /* tslint:disable */
 @Injectable()
 export class CourseService {
+    private courseSource: Subject<ICourse[]>;
     private COURSES: ICourse[] = [
         {
             id: 1,
@@ -39,33 +42,38 @@ export class CourseService {
         }
     ];
 
-    public getAll(): Promise<ICourse[]> {
-        return Promise.resolve(this.COURSES);
+    constructor() {
+        this.courseSource = new Subject();
     }
 
-    public getById(id: number): ICourse {
-        return find(this.COURSES, (course: ICourse) => course.id === id);
+    public getAll(): Observable<ICourse[]> {
+        return this.courseSource.asObservable().startWith(this.COURSES);
     }
 
-    public save(course: ICourse) {
-        console.log(`course ${course.title} should be created`);
+    public getById(id: number): Observable<ICourse> {
+        return this.courseSource.map((courses: ICourse[]) => find(courses, (course: ICourse) => course.id === id));
+    }
+
+    public save(course: ICourse): void {
+        this.COURSES.push(course);
+        this.courseSource.next(this.COURSES);
     }
 
     public update(course: ICourse): void {
         console.log(`course ${course.title} will be updated`);
+        let index = findIndex(this.COURSES, { id: course.id });
+        this.COURSES[index] = course;
+        this.courseSource.next(this.COURSES);
     }
 
-    public remove(id: number): Promise<number> {
-        return Promise.resolve(id);
-    }
+    public remove(id: number): void {
+        let index = findIndex(this.COURSES, { id });
+        this.COURSES.splice(index, 1);
+        this.courseSource.next(this.COURSES);
+    };
 
-    public findByQuery(query: string): Promise<ICourse[]> {
-        console.log(`search will be performed by ${query}`);
-
-        return new Promise((resolve) => {
-            let filtered = filter(this.COURSES, (course: ICourse) => course.title.indexOf(query) !== -1);
-
-            resolve(filtered);
-        })
+    public findByQuery(query: string): void {
+        let filtered = filter(this.COURSES, (course: ICourse) => course.title.indexOf(query) !== -1);
+        this.courseSource.next(filtered);
     }
 }
