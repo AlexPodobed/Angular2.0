@@ -1,4 +1,7 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import {
+    Component, Input, OnInit, OnChanges, SimpleChanges, ChangeDetectionStrategy,
+    ChangeDetectorRef
+} from '@angular/core';
 import { ICourse } from '../shared/course.model';
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
@@ -6,6 +9,7 @@ import { CourseService, ConfirmModalModalComponent } from '../shared';
 
 @Component({
     selector: 'course-list',
+    changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './course-list.component.html'
 })
 export class CourseListComponent implements OnInit, OnChanges {
@@ -14,6 +18,7 @@ export class CourseListComponent implements OnInit, OnChanges {
     public courseList: ICourse[];
 
     constructor(private courseService: CourseService,
+                private ref: ChangeDetectorRef,
                 private modalService: NgbModal) {
     }
 
@@ -42,6 +47,7 @@ export class CourseListComponent implements OnInit, OnChanges {
 
     public setCourseList(courses: ICourse[]): void {
         this.courseList = courses;
+        this.ref.markForCheck();
     }
 
     public remove(course: ICourse): void {

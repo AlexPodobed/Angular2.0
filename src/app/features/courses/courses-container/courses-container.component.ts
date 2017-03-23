@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
     selector: 'courses-container',
+    changeDetection: ChangeDetectionStrategy.OnPush,
     styles: [require('./courses-container.scss')],
     templateUrl: './courses-container.component.html'
 })

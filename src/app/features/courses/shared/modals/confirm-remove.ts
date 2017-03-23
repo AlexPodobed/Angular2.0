@@ -1,10 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { ICourse }from'../course.model';
 
 @Component({
     selector: 'removeCourseModal',
+    changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
         <div class="modal-header bg-danger text-white">
             <h4 class="modal-title">Delete Course</h4>

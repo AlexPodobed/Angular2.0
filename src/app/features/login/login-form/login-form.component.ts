@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../../core/services';
 
 @Component({
     selector: 'login-form',
+    changeDetection: ChangeDetectionStrategy.OnPush,
     styles: [require('./login-form.scss')],
     templateUrl: './login-form.component.html'
 })

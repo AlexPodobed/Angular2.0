@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
     selector: 'course-search',
+    changeDetection: ChangeDetectionStrategy.OnPush,
     styles: [require('./course-search.component.scss')],
     templateUrl: './course-search.component.html'
 })

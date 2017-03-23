@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription }   from 'rxjs/Subscription';
 
@@ -7,6 +7,7 @@ import { IUser } from '../../entities';
 
 @Component({
     selector: 'app-navbar',
+    changeDetection: ChangeDetectionStrategy.OnPush,
     styles: [require('./navbar.component.scss')],
     templateUrl: './navbar.component.html'
 })
@@ -16,13 +17,18 @@ export class NavbarComponent implements OnInit, OnDestroy {
     public isLoggedin: boolean;
     public user: IUser;
 
-    constructor(private AuthService: AuthService, private router: Router) {
+    constructor(private AuthService: AuthService,
+                private ref: ChangeDetectorRef,
+                private router: Router) {
         this.opened = false;
     }
 
     ngOnInit() {
         this.updateAuthInfo();
-        this.subscription = this.AuthService.authState$.subscribe(this.updateAuthInfo.bind(this));
+        this.subscription = this.AuthService.authState$.subscribe(() => {
+            this.updateAuthInfo();
+            this.ref.markForCheck();
+        });
     }
 
     ngOnDestroy() {
