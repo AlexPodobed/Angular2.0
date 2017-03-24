@@ -22,7 +22,7 @@ export class DebugZoneService {
     }
 
     private onZoneUnstable(): void {
-        console.log(`[zone-unstable] change started`);
+        // console.log(`[zone-unstable] change started`);
         this.unstableTimestamp = DebugZoneService.timestamp;
     }
 
