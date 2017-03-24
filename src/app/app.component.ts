@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-
+import { DebugZoneService } from './core/services';
 import '../styles/styles.scss';
 
 @Component({
@@ -7,4 +7,7 @@ import '../styles/styles.scss';
     templateUrl: './app.component.html'
 })
 export class AppComponent {
+    constructor(private debugZoneService: DebugZoneService) {
+        debugZoneService.init();
+    }
 }
