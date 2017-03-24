@@ -10,4 +10,3 @@ import { NavbarModule } from '../navbar';
 export class HeaderModule {
 
 }
-;

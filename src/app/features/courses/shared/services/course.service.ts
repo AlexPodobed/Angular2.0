@@ -7,6 +7,7 @@ import { Observable, Subject } from 'rxjs';
 /* tslint:disable */
 @Injectable()
 export class CourseService {
+    private static delay: number = 250;
     private courseSource: Subject<ICourse[]>;
     private COURSES: ICourse[] = [
         {
@@ -47,7 +48,9 @@ export class CourseService {
     }
 
     public getAll(): Observable<ICourse[]> {
-        return this.courseSource.asObservable().startWith(this.COURSES);
+        setTimeout(() => this.courseSource.next(this.COURSES), CourseService.delay);
+
+        return this.courseSource.asObservable();
     }
 
     public getById(id: number): Observable<ICourse> {
@@ -63,17 +66,20 @@ export class CourseService {
         console.log(`course ${course.title} will be updated`);
         let index = findIndex(this.COURSES, { id: course.id });
         this.COURSES[index] = course;
-        this.courseSource.next(this.COURSES);
+
+        setTimeout(() => this.courseSource.next(this.COURSES), CourseService.delay);
     }
 
     public remove(id: number): void {
         let index = findIndex(this.COURSES, { id });
         this.COURSES.splice(index, 1);
-        this.courseSource.next(this.COURSES);
+
+        setTimeout(() => this.courseSource.next(this.COURSES), CourseService.delay);
     };
 
     public findByQuery(query: string): void {
         let filtered = filter(this.COURSES, (course: ICourse) => course.title.indexOf(query) !== -1);
-        this.courseSource.next(filtered);
+
+        setTimeout(() => this.courseSource.next(filtered), CourseService.delay)
     }
 }

@@ -1,11 +1,13 @@
 import {
     Component, Input, OnInit, OnChanges, SimpleChanges, ChangeDetectionStrategy
 } from '@angular/core';
-import { ICourse } from '../shared/course.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
-import { CourseService, ConfirmModalModalComponent } from '../shared';
 import { Observable } from 'rxjs';
+
+import { ICourse } from '../shared/course.model';
+import { CourseService, ConfirmModalModalComponent } from '../shared';
+import { LoaderBlockService } from '../../../core/services';
+
 import { isEmpty } from 'lodash';
 
 @Component({
@@ -19,29 +21,33 @@ export class CourseListComponent implements OnInit, OnChanges {
     public courses$: Observable<ICourse[]>;
     public isEmpty: boolean;
 
-    constructor(private courseService: CourseService, private modalService: NgbModal) {
+    constructor(private courseService: CourseService,
+                private loaderBlockService: LoaderBlockService,
+                private modalService: NgbModal) {
     }
 
     public ngOnInit() {
+        this.loaderBlockService.show();
         this.courses$ = this.courseService.getAll()
-            .do((courses: ICourse[]) => this.isEmpty = isEmpty(courses));
+            .do((courses: ICourse[]) => {
+                this.isEmpty = isEmpty(courses);
+                this.loaderBlockService.hide();
+            });
     }
 
     public ngOnChanges(changes: SimpleChanges) {
         let queryChange = changes['query'];
 
         if (queryChange && !queryChange.isFirstChange()) {
-            this.searchCourse(queryChange.currentValue);
+            this.loaderBlockService.show();
+            this.courseService.findByQuery(queryChange.currentValue);
         }
-    }
-
-    public searchCourse(query: string): void {
-        this.courseService.findByQuery(query);
     }
 
     public remove(course: ICourse): void {
         this.openConfirmModal(course)
             .then(() => this.courseService.remove(course.id))
+            .then(() => this.loaderBlockService.show())
             .catch(() => console.log('catch rejected stage'));
     }
 

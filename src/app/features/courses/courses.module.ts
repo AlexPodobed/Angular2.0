@@ -5,6 +5,7 @@ import { CourseDetailsModule } from './course-details';
 import { CourseFormModule } from './course-form';
 
 import { CourseService } from './shared';
+import { LoaderBlockService } from '../../core/services';
 
 @NgModule({
     declarations: [],
@@ -13,7 +14,10 @@ import { CourseService } from './shared';
         CourseDetailsModule,
         CourseFormModule
     ],
-    providers: [CourseService],
+    providers: [
+        CourseService,
+        LoaderBlockService
+    ],
     exports: []
 })
 

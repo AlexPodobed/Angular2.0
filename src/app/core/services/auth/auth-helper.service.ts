@@ -33,7 +33,7 @@ export const AuthHelper = {
                     user: this.getUserMock(email, password),
                     token: this.getTokenMock()
                 });
-            }, 400);
+            }, 800);
         });
     }
 };

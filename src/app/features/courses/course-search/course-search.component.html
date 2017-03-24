@@ -2,6 +2,7 @@
     <div class="input-group">
         <input type="text" name="query"
                [(ngModel)]="searchQuery"
+               [readonly]="loader$ | async"
                class="form-control"
                placeholder="Search for...">
         <span class="input-group-btn">

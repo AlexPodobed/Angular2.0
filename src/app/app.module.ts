@@ -7,29 +7,25 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularclass/hmr';
 import { ENV_PROVIDERS } from './environment';
 
+// Routes
 import { ROUTES } from './app.routes';
-// App is our top level component
-import { AppComponent } from './app.component';
+
+// Core module
+import {CoreModule} from './core/core.module';
+
+// Services
+import { AppState } from './core/services';
 
 // Features
 import { CoursesModule } from './features/courses';
 import { LoginModule } from './features/login';
-
-// Components
-import { FooterModule, HeaderModule } from './core/components';
-import { NoContentComponent } from './features/no-content';
 import { HomeComponent } from './features/home';
 
-// Services
-import { AppState, AuthService, StorageService, DebugZoneService } from './core/services';
+// Components
+import { NoContentComponent } from './features/no-content';
 
-// Application wide providers
-const APP_PROVIDERS = [
-    AppState,
-    AuthService,
-    StorageService,
-    DebugZoneService
-];
+// App is our top level component
+import { AppComponent } from './app.component';
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -45,16 +41,14 @@ const APP_PROVIDERS = [
         RouterModule.forRoot(ROUTES, { useHash: false }),
         NgbModule.forRoot(),
         // commons
-        HeaderModule,
-        FooterModule,
+        CoreModule,
         // features
         CoursesModule,
         LoginModule
     ],
     providers: [
         // expose our Services and Providers into Angular's dependency injection
-        ENV_PROVIDERS,
-        APP_PROVIDERS
+        ENV_PROVIDERS
     ]
 })
 export class AppModule {
