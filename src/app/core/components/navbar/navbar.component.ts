@@ -1,8 +1,6 @@
-import {
-    Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef
-} from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription }   from 'rxjs/Subscription';
+import { Observable }   from 'rxjs';
 
 import { AuthService } from '../../services';
 import { IUser } from '../../entities';
@@ -13,36 +11,20 @@ import { IUser } from '../../entities';
     styles: [require('./navbar.component.scss')],
     templateUrl: './navbar.component.html'
 })
-export class NavbarComponent implements OnInit, OnDestroy {
-    private subscription: Subscription;
+export class NavbarComponent implements OnInit {
+    public user$: Observable<IUser>;
     public opened: boolean;
-    public isLoggedIn: boolean;
-    public user: IUser;
 
     constructor(private AuthService: AuthService,
-                private ref: ChangeDetectorRef,
                 private router: Router) {
         this.opened = false;
     }
 
     ngOnInit() {
-        this.updateAuthInfo();
-        this.subscription = this.AuthService.authState$.subscribe(() => {
-            this.updateAuthInfo();
-            this.ref.markForCheck();
-        });
+        this.user$ = this.AuthService.userInfo$;
     }
 
-    ngOnDestroy() {
-        this.subscription.unsubscribe();
-    }
-
-    private updateAuthInfo(): void {
-        this.isLoggedIn = this.AuthService.isAuthenticated();
-        this.user = this.AuthService.user;
-    }
-
-    public logout(e): void {
+    public onLogout(e): void {
         e.preventDefault();
 
         this.AuthService.logout()

@@ -10,15 +10,15 @@ export class AuthService {
     private static AUTH_USER_KEY: string = 'user';
     private static AUTH_TOKEN_KEY: string = 'token';
 
-    private authStateSource: Subject<IAuthResponse>;
+    private authStateSource: Subject<IUser>;
     private _user: IUser;
     private _token: IToken;
 
-    public authState$: Observable<IAuthResponse>;
+    public userInfo$: Observable<IUser>;
 
     constructor(private storage: StorageService) {
         this.authStateSource = new Subject();
-        this.authState$ = this.authStateSource.asObservable();
+        this.userInfo$ = this.authStateSource.asObservable().startWith(this.user);
     }
 
     set user(user: IUser) {
@@ -52,7 +52,7 @@ export class AuthService {
                 this.user = user;
                 this.token = token;
 
-                this.authStateSource.next({ user, token });
+                this.authStateSource.next(this.user);
             });
     }
 
@@ -62,7 +62,7 @@ export class AuthService {
                 this.user = null;
                 this.token = null;
 
-                this.authStateSource.next({ user: null, token: null });
+                this.authStateSource.next(this.user);
             });
     }
 

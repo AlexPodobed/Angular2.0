@@ -10,38 +10,8 @@
         <app-logo></app-logo>
     </a>
 
-    <div class="collapse navbar-collapse" [ngClass]="{'show': opened}">
-        <ul class="navbar-nav" *ngIf="isLoggedIn">
-            <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link" [routerLink]="'courses'">
-                    <i class="fa fa-tasks" aria-hidden="true"></i>
-                    Courses
-                </a>
-            </li>
-        </ul>
-
-        <ul class="navbar-nav ml-auto" *ngIf="!isLoggedIn">
-            <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link" [routerLink]="'login'">
-                    <i class="fa fa-sign-in" aria-hidden="true"></i>
-                    Login
-                </a>
-            </li>
-        </ul>
-
-        <ul class="navbar-nav ml-auto" *ngIf="isLoggedIn">
-            <li class="nav-item pr-3">
-                <span class="navbar-text">
-                    <i class="fa fa-user-circle-o" aria-hidden="true"></i>
-                    {{user.email}}
-                </span>
-            </li>
-            <li class="nav-item">
-                <a href="" class="nav-link" (click)="logout($event)">
-                    <i class="fa fa-sign-out" aria-hidden="true"></i>
-                    Logout
-                </a>
-            </li>
-        </ul>
-    </div>
+    <nav-menu [user]="user$ | async"
+              (logout)="onLogout($event)"
+              [opened]="opened">
+    </nav-menu>
 </nav>
