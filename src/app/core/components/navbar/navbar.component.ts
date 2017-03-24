@@ -1,4 +1,6 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import {
+    Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription }   from 'rxjs/Subscription';
 
@@ -14,7 +16,7 @@ import { IUser } from '../../entities';
 export class NavbarComponent implements OnInit, OnDestroy {
     private subscription: Subscription;
     public opened: boolean;
-    public isLoggedin: boolean;
+    public isLoggedIn: boolean;
     public user: IUser;
 
     constructor(private AuthService: AuthService,
@@ -35,9 +37,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.subscription.unsubscribe();
     }
 
-
     private updateAuthInfo(): void {
-        this.isLoggedin = this.AuthService.isAuthenticated();
+        this.isLoggedIn = this.AuthService.isAuthenticated();
         this.user = this.AuthService.user;
     }
 

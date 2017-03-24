@@ -17,9 +17,11 @@ import { ICourse }from'../course.model';
             <p>Do you really want to remove <strong>{{course.title}}</strong>?</p>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-outline-danger" (click)="activeModal.dismiss()">no
+            <button type="button" class="btn btn-outline-danger" 
+                    (click)="activeModal.dismiss()">no
             </button>
-            <button type="button" class="btn btn-outline-primary" (click)="activeModal.close(course)">Yes
+            <button type="button" class="btn btn-outline-primary" 
+                    (click)="activeModal.close(course)">Yes
             </button>
         </div>
     `

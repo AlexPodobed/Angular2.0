@@ -21,7 +21,7 @@ export class AuthService {
 
     constructor(private storage: StorageService) {
         this.authStateSource = new Subject();
-        this.authState$= this.authStateSource.asObservable();
+        this.authState$ = this.authStateSource.asObservable();
     }
 
     set user(user: IUser) {

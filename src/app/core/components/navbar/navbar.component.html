@@ -11,7 +11,7 @@
     </a>
 
     <div class="collapse navbar-collapse" [ngClass]="{'show': opened}">
-        <ul class="navbar-nav" *ngIf="isLoggedin">
+        <ul class="navbar-nav" *ngIf="isLoggedIn">
             <li class="nav-item" routerLinkActive="active">
                 <a class="nav-link" [routerLink]="'courses'">
                     <i class="fa fa-tasks" aria-hidden="true"></i>
@@ -20,7 +20,7 @@
             </li>
         </ul>
 
-        <ul class="navbar-nav ml-auto" *ngIf="!isLoggedin">
+        <ul class="navbar-nav ml-auto" *ngIf="!isLoggedIn">
             <li class="nav-item" routerLinkActive="active">
                 <a class="nav-link" [routerLink]="'login'">
                     <i class="fa fa-sign-in" aria-hidden="true"></i>
@@ -29,7 +29,7 @@
             </li>
         </ul>
 
-        <ul class="navbar-nav ml-auto" *ngIf="isLoggedin">
+        <ul class="navbar-nav ml-auto" *ngIf="isLoggedIn">
             <li class="nav-item pr-3">
                 <span class="navbar-text">
                     <i class="fa fa-user-circle-o" aria-hidden="true"></i>

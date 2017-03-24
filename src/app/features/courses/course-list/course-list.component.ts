@@ -1,4 +1,6 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
+import {
+    Component, Input, OnInit, OnChanges, SimpleChanges, ChangeDetectionStrategy
+} from '@angular/core';
 import { ICourse } from '../shared/course.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
