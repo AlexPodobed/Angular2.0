@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class StorageService {
-    public save(key: string, value: any): void {
+    public set(key: string, value: any): void {
         if (value === null) {
             localStorage.removeItem(key);
         } else {
