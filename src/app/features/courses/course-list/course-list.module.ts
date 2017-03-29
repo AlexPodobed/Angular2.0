@@ -3,11 +3,14 @@ import { CommonModule } from '@angular/common';
 
 import { CourseListComponent } from './course-list.component';
 import { CourseItemModule } from './course-item';
-import { NoResultsComponent } from '../shared';
+import { SharedModule } from '../shared';
 
 @NgModule({
-    declarations: [CourseListComponent, NoResultsComponent],
-    imports: [CommonModule, CourseItemModule],
+    declarations: [CourseListComponent],
+    imports: [
+        CommonModule,
+        SharedModule,
+        CourseItemModule],
     providers: [],
     exports: [CourseListComponent]
 })

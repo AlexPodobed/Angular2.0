@@ -4,14 +4,14 @@ import { CourseListModule } from '../course-list';
 import { CourseSearchModule } from '../course-search';
 import { CoursesContainerComponent } from './courses-container.component';
 
-import { CourseModalsModule } from '../shared';
+import { SharedModule } from '../shared';
 
 @NgModule({
     declarations: [CoursesContainerComponent],
     imports: [
         CourseListModule,
         CourseSearchModule,
-        CourseModalsModule
+        SharedModule
     ],
     providers: [],
     exports: [CoursesContainerComponent]
