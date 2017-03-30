@@ -1,10 +1,9 @@
 <div class="course-item row no-gutters" [colorizeByDate]="course.createdAt">
     <div class="col-md-10 col-xs-12">
         <h4 class="pr-2">
-            <span class="course-item__title">{{course.title}} </span> |
-            <span class="course-item__duration">{{course.duration | date:'HH:mm:ss'}}</span>
-
-            <i class="text-warning fa" [ngClass]="{'fa-star':course.topRated, 'fa-star-o': !course.topRated}"></i>
+            <span class="course-item__title">{{course.title | uppercase}} </span> |
+            <span class="course-item__duration">{{course.duration | duration}}</span>
+            <i class="fa" [ngClass]="{'fa-star text-warning':course.topRated, 'fa-star-o': !course.topRated}"></i>
             <small class="text-muted pull-right">{{course.createdAt | date}}</small>
         </h4>
         <p class="course-item__description pr-2">{{course.description}}</p>

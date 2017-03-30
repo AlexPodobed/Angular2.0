@@ -5,13 +5,16 @@ import {
     LoaderBlockService, AuthService, DebugZoneService, AppState, StorageService
 } from './services';
 
+import { PipesModule } from './pipes';
+
 @NgModule({
     declarations: [],
     imports: [
         LoaderBlockModule,
         FooterModule,
         HeaderModule,
-        LogoModule
+        LogoModule,
+        PipesModule
     ],
     providers: [
         AppState,
@@ -24,7 +27,8 @@ import {
         LoaderBlockModule,
         FooterModule,
         HeaderModule,
-        LogoModule
+        LogoModule,
+        PipesModule
     ]
 })
 
