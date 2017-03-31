@@ -28,12 +28,11 @@
         "no-access-missing-member": true,
         "no-attribute-parameter-decorator": true,
         "no-forward-ref": true,
-        "no-input-rename": true,
+//        "no-input-rename": true,
         "no-output-rename": true,
         "pipe-naming": [
             true,
-            "camelCase",
-            "my"
+            "camelCase"
         ],
         "templates-use-public": true,
         "use-host-property-decorator": true,
@@ -50,7 +49,7 @@
         ],
         "max-line-length": [
             true,
-            100
+            140
         ],
         "no-string-literal": false,
         "no-use-before-declare": true,
