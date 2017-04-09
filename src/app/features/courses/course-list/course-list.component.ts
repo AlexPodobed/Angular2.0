@@ -40,7 +40,9 @@ export class CourseListComponent implements OnInit, OnChanges {
 
         this.filteredCourses$ = this.courses$
             .combineLatest(this.search$,
-                (courses: ICourse[], query: string) => this.filterByPipe.transform(courses, { title: query })
+                (courses: ICourse[], query: string) =>
+                    this.filterByPipe.transform(courses, { title: query }
+                )
             )
             .do((courses: ICourse[]) => {
                 this.isEmpty = isEmpty(courses);
