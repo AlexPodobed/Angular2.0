@@ -4,7 +4,7 @@ import { CourseListModule } from '../course-list';
 import { CourseSearchModule } from '../course-search';
 import { CoursesContainerComponent } from './courses-container.component';
 
-import { SharedModule } from '../shared';
+import { SharedCourseModule } from '../shared';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
@@ -13,7 +13,7 @@ import { RouterModule } from '@angular/router';
         RouterModule,
         CourseListModule,
         CourseSearchModule,
-        SharedModule
+        SharedCourseModule
     ],
     providers: [],
     exports: [CoursesContainerComponent]

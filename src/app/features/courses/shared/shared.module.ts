@@ -18,7 +18,7 @@ import { ColorizeByDateDirective } from './directives';
         ColorizeByDateDirective
     ]
 })
-export class SharedModule {
+export class SharedCourseModule {
     constructor() {
         console.log('-*-****** SharedModule initizlied');
     }

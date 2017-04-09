@@ -11,7 +11,8 @@ import { ENV_PROVIDERS } from './environment';
 import { ROUTES } from './app.routes';
 
 // Core module
-import {CoreModule} from './core/core.module';
+import { CoreModule } from './core/core.module';
+import { SharedModule } from './shared/shared.module';
 
 // Services
 import { AppState } from './core/services';
@@ -42,6 +43,7 @@ import { AppComponent } from './app.component';
         NgbModule.forRoot(),
         // commons
         CoreModule,
+        SharedModule,
         // features
         CoursesModule,
         LoginModule

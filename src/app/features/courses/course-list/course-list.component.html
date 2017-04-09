@@ -1,4 +1,4 @@
-<course-item *ngFor="let course of filteredCourses$ | async | orderBy:'createdAt'"
+<course-item *ngFor="let course of filteredCourses$ | async | skipOutdated:'createdAt':14 | orderBy:'createdAt'"
              [course]="course"
              (onUpdated)="update($event)"
              (onRemoved)="remove($event)">

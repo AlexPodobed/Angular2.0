@@ -82,9 +82,4 @@ export class CourseService {
         this.courseSource.next([...this.COURSES]);
     };
 
-    public findByQuery(query: string): void {
-        let filtered = filter(this.COURSES, (course: ICourse) => course.title.indexOf(query) !== -1);
-
-        setTimeout(() => this.courseSource.next(filtered), CourseService.delay)
-    }
 }
