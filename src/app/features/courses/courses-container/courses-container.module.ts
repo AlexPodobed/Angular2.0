@@ -3,8 +3,6 @@ import { NgModule } from '@angular/core';
 import { CourseListModule } from '../course-list';
 import { CourseSearchModule } from '../course-search';
 import { CoursesContainerComponent } from './courses-container.component';
-
-import { SharedCourseModule } from '../shared';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
@@ -12,8 +10,7 @@ import { RouterModule } from '@angular/router';
     imports: [
         RouterModule,
         CourseListModule,
-        CourseSearchModule,
-        SharedCourseModule
+        CourseSearchModule
     ],
     providers: [],
     exports: [CoursesContainerComponent]

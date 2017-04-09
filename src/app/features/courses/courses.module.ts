@@ -6,7 +6,7 @@ import { CourseFormModule } from './course-form';
 
 import { SharedCourseModule } from './shared';
 import { LoaderBlockService } from '../../core/services';
-import {SharedModule} from '../../shared/shared.module';
+import { SharedModule } from '../../shared';
 
 @NgModule({
     declarations: [],

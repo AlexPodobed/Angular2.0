@@ -14,6 +14,6 @@ export class CourseFormComponent {
     save(e): void {
         e.preventDefault();
 
-        console.log('saved')
+        console.log('saved');
     }
 }

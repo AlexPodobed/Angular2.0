@@ -9,7 +9,6 @@ export class LoaderBlockService {
     public loaderStatus$: Observable<boolean>;
 
     constructor() {
-        console.info('LoaderBlockService initialized')
         this.loaderSource = new Subject();
         this.loaderStatus$ = this.loaderSource.asObservable();
     }

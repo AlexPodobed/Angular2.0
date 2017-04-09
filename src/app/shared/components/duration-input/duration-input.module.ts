@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { DurationInputComponent} from './duration-input.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PipesModule } from '../../../core/pipes'
-
+import { PipesModule } from '../../../core/pipes';
 
 @NgModule({
     declarations: [DurationInputComponent],
