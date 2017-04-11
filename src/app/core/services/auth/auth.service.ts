@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 import { IUser, IToken, IAuthResponse } from '../../entities';
 import { StorageService } from '../storage/storage.service';
@@ -10,15 +10,15 @@ export class AuthService {
     private static AUTH_USER_KEY: string = 'user';
     private static AUTH_TOKEN_KEY: string = 'token';
 
-    private authStateSource: Subject<IUser>;
+    private authStateSource: BehaviorSubject<IUser>;
     private _user: IUser;
     private _token: IToken;
 
     public userInfo$: Observable<IUser>;
 
     constructor(private storage: StorageService) {
-        this.authStateSource = new Subject();
-        this.userInfo$ = this.authStateSource.asObservable().startWith(this.user);
+        this.authStateSource = new BehaviorSubject(this.user);
+        this.userInfo$ = this.authStateSource.asObservable();
     }
 
     set user(user: IUser) {

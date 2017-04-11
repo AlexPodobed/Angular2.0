@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { CourseItemComponent } from './course-item.component';
-import {SharedModule} from '../../shared';
+import {SharedCourseModule} from '../../shared';
 import {PipesModule} from '../../../../core/pipes';
 
 @NgModule({
@@ -10,7 +10,7 @@ import {PipesModule} from '../../../../core/pipes';
     imports: [
         CommonModule,
         PipesModule,
-        SharedModule
+        SharedCourseModule
     ],
     exports: [CourseItemComponent]
 })

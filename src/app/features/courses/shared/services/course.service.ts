@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { ICourse } from '../course.model';
 
-import { filter, find, findIndex } from 'lodash';
-import { Observable, Subject } from 'rxjs';
+import { find, findIndex } from 'lodash';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 /* tslint:disable */
 @Injectable()
 export class CourseService {
     private static delay: number = 250;
-    private courseSource: Subject<ICourse[]>;
+    private courseSource: BehaviorSubject<ICourse[]>;
     private COURSES: ICourse[] = [
         {
             id: 1,
@@ -49,13 +49,12 @@ export class CourseService {
     ];
 
     constructor() {
-        this.courseSource = new Subject();
+        this.courseSource = new BehaviorSubject(this.COURSES);
     }
 
     public getAll(): Observable<ICourse[]> {
-        console.warn('fetch items')
+        console.warn('fetch items');
         return this.courseSource.asObservable()
-            .startWith([...this.COURSES])
             .delay(CourseService.delay);
     }
 
@@ -82,9 +81,4 @@ export class CourseService {
         this.courseSource.next([...this.COURSES]);
     };
 
-    public findByQuery(query: string): void {
-        let filtered = filter(this.COURSES, (course: ICourse) => course.title.indexOf(query) !== -1);
-
-        setTimeout(() => this.courseSource.next(filtered), CourseService.delay)
-    }
 }

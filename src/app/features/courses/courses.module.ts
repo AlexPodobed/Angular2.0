@@ -4,13 +4,15 @@ import { CoursesContainerModule } from './courses-container';
 import { CourseDetailsModule } from './course-details';
 import { CourseFormModule } from './course-form';
 
-import { SharedModule } from './shared';
+import { SharedCourseModule } from './shared';
 import { LoaderBlockService } from '../../core/services';
+import { SharedModule } from '../../shared';
 
 @NgModule({
     declarations: [],
     imports: [
         SharedModule,
+        SharedCourseModule,
         CoursesContainerModule,
         CourseDetailsModule,
         CourseFormModule,

@@ -1,9 +1,9 @@
-<course-item *ngFor="let course of filteredCourses$ | async | orderBy:'createdAt'"
+<course-item *ngFor="let course of courses$ | async | filterBy:{title: query} | orderBy:'createdAt'"
              [course]="course"
              (onUpdated)="update($event)"
              (onRemoved)="remove($event)">
 </course-item>
 
-<no-results *ngIf="isEmpty">
+<sh-no-results *ngIf="isEmpty">
     <p>Oops.. Nothing found </p>
-</no-results>
+</sh-no-results>

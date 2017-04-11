@@ -9,7 +9,6 @@ export class DebugZoneService {
     }
 
     constructor(private ngZone: NgZone) {
-        console.info('DebugService initialized');
         this.unstableTimestamp = DebugZoneService.timestamp;
     }
 

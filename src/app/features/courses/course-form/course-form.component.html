@@ -1,1 +1,42 @@
-<p>course form for Create or Update course</p>
+<article class="row">
+    <section class="col-lg-6 col-sm-12 offset-lg-3">
+        <form (submit)="save($event)">
+            <div class="form-group row">
+                <label for="title" class="col-sm-2 col-form-label">Title</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="title" placeholder="Put title here">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="description" class="col-sm-2 col-form-label">Description</label>
+                <div class="col-sm-10">
+                    <textarea type="text" class="form-control" id="description"
+                              placeholder="Put description here"></textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Date</label>
+                <div class="col-sm-10">
+                    <sh-date-picker></sh-date-picker>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Duration</label>
+                <div class="col-sm-5">
+                    <sh-duration-input></sh-duration-input>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Authors</label>
+                <div class="col-sm-10">
+                    <sh-author-select></sh-author-select>
+                </div>
+            </div>
+
+            <div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+            </div>
+        </form>
+    </section>
+</article>
