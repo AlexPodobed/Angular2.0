@@ -1,13 +1,18 @@
 import { Injectable } from '@angular/core';
+import { Http, Headers, RequestOptions, Response, URLSearchParams } from '@angular/http';
+
 import { ICourse } from '../course.model';
 
 import { find, findIndex } from 'lodash';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { AuthorizedHttp } from "../../../../core/services";
 
 /* tslint:disable */
 @Injectable()
 export class CourseService {
+    private static BASE_URL: string = 'http://angular2.getsandbox.com';
     private static delay: number = 250;
+
     private courseSource: BehaviorSubject<ICourse[]>;
     private COURSES: ICourse[] = [
         {
@@ -48,14 +53,22 @@ export class CourseService {
         }
     ];
 
-    constructor() {
+    constructor(private http: AuthorizedHttp) {
         this.courseSource = new BehaviorSubject(this.COURSES);
     }
 
-    public getAll(): Observable<ICourse[]> {
-        console.warn('fetch items');
-        return this.courseSource.asObservable()
-            .delay(CourseService.delay);
+    public getAll(page: number = 0, size: number = 5): Observable<ICourse[]> {
+        let requestOptions = new RequestOptions();
+        let urlParams: URLSearchParams = new URLSearchParams();
+
+        urlParams.set('page', page.toString());
+        urlParams.set('size', size.toString());
+        requestOptions.search = urlParams;
+
+        console.log(111111111)
+
+        return this.http.get(`${CourseService.BASE_URL}/courses`, requestOptions)
+            .map((res: Response) => res.json());
     }
 
     public getById(id: number): Observable<ICourse> {
@@ -74,11 +87,18 @@ export class CourseService {
         this.courseSource.next([...this.COURSES]);
     }
 
-    public remove(id: number): void {
-        let index = findIndex(this.COURSES, { id });
-        this.COURSES.splice(index, 1);
+    public remove(id: number): Observable<any> {
+        let requestOptions = new RequestOptions();
 
-        this.courseSource.next([...this.COURSES]);
+        return this.http.delete(`${CourseService.BASE_URL}/courses/${id}`, requestOptions)
+            .map((res: Response) => res.json());
+
+
+
+        // let index = findIndex(this.COURSES, { id });
+        // this.COURSES.splice(index, 1);
+        //
+        // this.courseSource.next([...this.COURSES]);
     };
 
 }

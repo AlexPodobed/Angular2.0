@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Http, Headers, RequestOptions, Response } from '@angular/http';
+
 import { Observable, BehaviorSubject } from 'rxjs';
 
 import { IUser, IToken, IAuthResponse } from '../../entities';
@@ -9,16 +11,19 @@ import { AuthHelper } from './auth-helper.service';
 export class AuthService {
     private static AUTH_USER_KEY: string = 'user';
     private static AUTH_TOKEN_KEY: string = 'token';
+    private static BASE_URL: string = 'http://angular2.getsandbox.com';
 
+    private authUrl: string;
     private authStateSource: BehaviorSubject<IUser>;
     private _user: IUser;
     private _token: IToken;
 
     public userInfo$: Observable<IUser>;
 
-    constructor(private storage: StorageService) {
+    constructor(private storage: StorageService, private http: Http) {
         this.authStateSource = new BehaviorSubject(this.user);
         this.userInfo$ = this.authStateSource.asObservable();
+        this.authUrl = `${AuthService.BASE_URL}/auth`;
     }
 
     set user(user: IUser) {
@@ -46,6 +51,15 @@ export class AuthService {
         return this._token;
     }
 
+    public onSuccessLogin(res: IAuthResponse):void{
+        console.log('success login')
+        this.user = res.user;
+        this.token = res.token;
+
+        this.authStateSource.next(this.user);
+    }
+
+    // deprecated
     public login(email: string, password: string): Promise<any> {
         return AuthHelper.fakeLoginRequest(email, password)
             .then(({ user, token }: IAuthResponse) => {
@@ -54,6 +68,18 @@ export class AuthService {
 
                 this.authStateSource.next(this.user);
             });
+    }
+
+
+    public loginUpdated(email: string, password: string): Observable<IAuthResponse> {
+        let body = {email, password};
+        let headers = new Headers({'Content-Type': 'application/json'});
+        let options = new RequestOptions({headers});
+
+        return this.http.post(this.authUrl, body, options)
+            .map((res:Response) => res.json())
+            .do((res: IAuthResponse) => this.onSuccessLogin(res))
+            .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
     }
 
     public logout(): Promise<any> {

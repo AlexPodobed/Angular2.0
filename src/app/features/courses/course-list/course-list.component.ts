@@ -1,5 +1,5 @@
 import {
-    Component, Input, OnInit, OnChanges, SimpleChanges, ChangeDetectionStrategy
+    Component, Input, OnInit, OnChanges, SimpleChanges, ChangeDetectionStrategy, ChangeDetectorRef
 } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
@@ -22,11 +22,16 @@ export class CourseListComponent implements OnInit, OnChanges {
     public isEmpty: boolean;
 
     constructor(private courseService: CourseService,
+                private cd: ChangeDetectorRef,
                 private loaderBlockService: LoaderBlockService,
                 private modalService: NgbModal) {
     }
 
     public ngOnInit() {
+       this.fetchCourses();
+    }
+
+    public fetchCourses(){
         this.loaderBlockService.show();
         this.courses$ = this.courseService.getAll()
             .do((courses: ICourse[]) => {
@@ -45,8 +50,15 @@ export class CourseListComponent implements OnInit, OnChanges {
 
     public remove(course: ICourse): void {
         this.openConfirmModal(course)
-            .then(() => this.courseService.remove(course.id))
-            .then(() => this.loaderBlockService.show())
+            .then(() => {
+                this.loaderBlockService.show();
+                this.courseService.remove(course.id)
+                    .subscribe(() => {
+                        this.loaderBlockService.hide();
+                        this.fetchCourses();
+                        this.cd.markForCheck();
+                    })
+            })
             .catch(() => console.log('catch rejected stage'));
     }
 
