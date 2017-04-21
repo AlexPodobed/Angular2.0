@@ -7,6 +7,12 @@ import { find, findIndex } from 'lodash';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { AuthorizedHttp } from "../../../../core/services";
 
+export interface ICoursesRequest {
+    page: number;
+    size: number;
+    query: string;
+}
+
 /* tslint:disable */
 @Injectable()
 export class CourseService {
@@ -57,15 +63,14 @@ export class CourseService {
         this.courseSource = new BehaviorSubject(this.COURSES);
     }
 
-    public getAll(page: number = 0, size: number = 5): Observable<ICourse[]> {
+    public getAll({ page, size, query }: ICoursesRequest): Observable<ICourse[]> {
         let requestOptions = new RequestOptions();
         let urlParams: URLSearchParams = new URLSearchParams();
 
         urlParams.set('page', page.toString());
         urlParams.set('size', size.toString());
+        query && urlParams.set('query', query);
         requestOptions.search = urlParams;
-
-        console.log(111111111)
 
         return this.http.get(`${CourseService.BASE_URL}/courses`, requestOptions)
             .map((res: Response) => res.json());
@@ -92,13 +97,20 @@ export class CourseService {
 
         return this.http.delete(`${CourseService.BASE_URL}/courses/${id}`, requestOptions)
             .map((res: Response) => res.json());
-
-
-
-        // let index = findIndex(this.COURSES, { id });
-        // this.COURSES.splice(index, 1);
-        //
-        // this.courseSource.next([...this.COURSES]);
     };
+
+    public search(query: string): Observable<ICourse[]> {
+        let requestOptions = new RequestOptions();
+        let urlParams: URLSearchParams = new URLSearchParams();
+
+        urlParams.set('instance', 'courses');
+        urlParams.set('search_by', 'title');
+        urlParams.set('query', query);
+
+        requestOptions.search = urlParams;
+
+        return this.http.get(`${CourseService.BASE_URL}/search`, requestOptions)
+            .map((res: Response) => res.json())
+    }
 
 }
