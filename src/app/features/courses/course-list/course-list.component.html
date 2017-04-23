@@ -1,11 +1,15 @@
-<course-item *ngFor="let course of courses$ | async  | orderBy:'createdAt'"
+<course-item *ngFor="let course of courses | orderBy:'createdAt'"
              [course]="course"
              (onUpdated)="update($event)"
              (onRemoved)="remove($event)">
 </course-item>
 
-<sh-pagination [items]="courses$" [total]="12" [size]="5"></sh-pagination>
-
 <sh-no-results *ngIf="isEmpty">
     <p>Oops.. Nothing found </p>
 </sh-no-results>
+
+<sh-pagination [total]="options.total"
+               [page]="options.page"
+               (onPaginate)="fetchMore($event)"
+               [size]="options.size">
+</sh-pagination>

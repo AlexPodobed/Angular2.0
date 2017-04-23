@@ -1,16 +1,24 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions, Response, URLSearchParams } from '@angular/http';
+import { RequestOptions, Response, URLSearchParams } from '@angular/http';
 
 import { ICourse } from '../course.model';
 
 import { find, findIndex } from 'lodash';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { AuthorizedHttp } from "../../../../core/services";
+import { AuthorizedHttp } from '../../../../core/services';
 
 export interface ICoursesRequest {
     page: number;
     size: number;
     query: string;
+    total?: number;
+}
+
+export interface ICoursePagingResponse {
+    items: ICourse[];
+    total: number;
+    size: number;
+    page: number
 }
 
 /* tslint:disable */
@@ -63,11 +71,11 @@ export class CourseService {
         this.courseSource = new BehaviorSubject(this.COURSES);
     }
 
-    public getAll({ page, size, query }: ICoursesRequest): Observable<ICourse[]> {
+    public getAll({ page, size, query }: ICoursesRequest): Observable<ICoursePagingResponse> {
         let requestOptions = new RequestOptions();
         let urlParams: URLSearchParams = new URLSearchParams();
 
-        urlParams.set('page', page.toString());
+        urlParams.set('page', (--page).toString());
         urlParams.set('size', size.toString());
         query && urlParams.set('query', query);
         requestOptions.search = urlParams;
@@ -98,19 +106,5 @@ export class CourseService {
         return this.http.delete(`${CourseService.BASE_URL}/courses/${id}`, requestOptions)
             .map((res: Response) => res.json());
     };
-
-    public search(query: string): Observable<ICourse[]> {
-        let requestOptions = new RequestOptions();
-        let urlParams: URLSearchParams = new URLSearchParams();
-
-        urlParams.set('instance', 'courses');
-        urlParams.set('search_by', 'title');
-        urlParams.set('query', query);
-
-        requestOptions.search = urlParams;
-
-        return this.http.get(`${CourseService.BASE_URL}/search`, requestOptions)
-            .map((res: Response) => res.json())
-    }
 
 }

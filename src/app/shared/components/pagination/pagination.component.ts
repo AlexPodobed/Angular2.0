@@ -7,33 +7,17 @@ import { Observable } from "rxjs";
     templateUrl: './pagination.component.html'
 })
 export class PaginationComponent implements OnInit {
-    @Input() public items: Observable<any>;
     @Input() public page: number;
     @Input() public total: number;
     @Input() public size: number;
 
-    @Output() public onPaginate = new EventEmitter<any>();
-
-
-    public pageItems: number[];
+    @Output() public onPaginate = new EventEmitter<number>();
 
     public ngOnInit(): void {
-        console.log('[PaginationComponent]', this.items);
+        console.log('[PaginationComponent]', this.total);}
 
-        this.pageItems = Array.from(Array(Math.ceil(this.total / this.size)).keys());
-
-        console.log(this.pageItems);
-    }
-
-    public onPageNext(){
-
-    }
-
-    public onPagePrev(){
-
-    }
-
-    public onPageSelect(index){
-        console.log(index);
+    public onPageChanged(page){
+        console.log('page changed: ', page);
+        this.onPaginate.emit(page);
     }
 }

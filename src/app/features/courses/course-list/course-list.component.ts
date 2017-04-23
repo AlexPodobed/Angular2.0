@@ -1,14 +1,13 @@
 import {
-    Component, Input, OnInit, OnChanges, SimpleChanges, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy
+    Component, Input, OnInit, OnChanges, SimpleChanges,
+    ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy
 } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription } from 'rxjs';
-
-import { ICourse } from '../shared/course.model';
-import { CourseService, ConfirmModalModalComponent, ICoursesRequest } from '../shared';
-import { LoaderBlockService } from '../../../core/services';
-
 import { isEmpty } from 'lodash';
+
+import { CourseService, ConfirmModalModalComponent, ICoursesRequest, ICoursePagingResponse, ICourse } from '../shared';
+import { LoaderBlockService } from '../../../core/services';
 
 @Component({
     selector: 'course-list',
@@ -16,12 +15,12 @@ import { isEmpty } from 'lodash';
     templateUrl: './course-list.component.html'
 })
 export class CourseListComponent implements OnInit, OnChanges, OnDestroy {
-    private removeSubscription: Subscription;
+    private subscriptions: Subscription[] = [];
     private options: ICoursesRequest;
 
     @Input() public query: string;
 
-    public courses$: Observable<ICourse[]>;
+    public courses: ICourse[];
     public isEmpty: boolean;
 
     constructor(private courseService: CourseService,
@@ -31,51 +30,63 @@ export class CourseListComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     public ngOnInit() {
+        this.options = {
+            query: this.query,
+            page: 1,
+            size: 5
+        };
         this.fetchCourses();
     }
 
     public ngOnDestroy(): void {
-        this.removeSubscription && this.removeSubscription.unsubscribe();
+        this.subscriptions.map((sub) => sub.unsubscribe());
     }
 
     public ngOnChanges(changes: SimpleChanges) {
         let queryChange = changes['query'];
 
         if (queryChange && !queryChange.isFirstChange()) {
-            this.query = queryChange.currentValue;
+            this.options.query = queryChange.currentValue;
             this.fetchCourses();
         }
     }
 
     public fetchCourses() {
-        this.options = {
-            query: this.query,
-            page: 0,
-            size: 5
-        };
         this.loaderBlockService.show();
-        this.courses$ = this.courseService.getAll(this.options)
-            .do((courses: ICourse[]) => this.onCoursesFetched(courses));
+        this.subscriptions.push(
+            this.courseService.getAll(this.options)
+                .do((res) => this.onCoursesFetched(res))
+                .subscribe()
+        );
     }
 
-    public onCoursesFetched(courses: ICourse[]): void {
-        this.isEmpty = isEmpty(courses);
+    public fetchMore(page: number) {
+        this.options.page = page;
+        this.fetchCourses();
+    }
+
+    public onCoursesFetched(res: ICoursePagingResponse): void {
+        this.options.total = res.total;
+        this.courses = res.items;
+        this.isEmpty = isEmpty(res.items);
         this.loaderBlockService.hide();
+        this.cd.markForCheck();
     }
 
     public onItemRemoved(): void {
         this.loaderBlockService.hide();
         this.fetchCourses();
-        this.cd.markForCheck()
     }
 
     public remove(course: ICourse): void {
-        this.removeSubscription = this.openConfirmModal(course)
-            .do(() => this.loaderBlockService.show())
-            .switchMapTo(this.courseService.remove(course.id))
-            .do(() => this.onItemRemoved())
-            .catch((err) => Observable.empty())
-            .subscribe();
+        this.subscriptions.push(
+            this.openConfirmModal(course)
+                .do(() => this.loaderBlockService.show())
+                .switchMapTo(this.courseService.remove(course.id))
+                .do(() => this.onItemRemoved())
+                .catch((err) => Observable.empty())
+                .subscribe()
+        );
     }
 
     public update(course: ICourse): void {
