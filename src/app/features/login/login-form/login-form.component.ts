@@ -37,7 +37,7 @@ export class LoginFormComponent implements OnDestroy {
     public login(): void {
         this.loaderBlockService.show();
 
-        this.subscription = this.AuthService.loginUpdated(this.email, this.password)
+        this.subscription = this.AuthService.login(this.email, this.password)
             .do(() => this.onSuccess())
             .subscribe();
     }

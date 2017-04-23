@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
-
 import { Observable, BehaviorSubject } from 'rxjs';
 
 import { IUser, IToken, IAuthResponse } from '../../entities';
 import { StorageService } from '../storage/storage.service';
-import { AuthHelper } from './auth-helper.service';
 
 @Injectable()
 export class AuthService {
@@ -51,35 +49,22 @@ export class AuthService {
         return this._token;
     }
 
-    public onSuccessLogin(res: IAuthResponse):void{
-        console.log('success login')
+    public onSuccessLogin(res: IAuthResponse): void {
         this.user = res.user;
         this.token = res.token;
 
         this.authStateSource.next(this.user);
     }
 
-    // deprecated
-    public login(email: string, password: string): Promise<any> {
-        return AuthHelper.fakeLoginRequest(email, password)
-            .then(({ user, token }: IAuthResponse) => {
-                this.user = user;
-                this.token = token;
-
-                this.authStateSource.next(this.user);
-            });
-    }
-
-
-    public loginUpdated(email: string, password: string): Observable<IAuthResponse> {
-        let body = {email, password};
-        let headers = new Headers({'Content-Type': 'application/json'});
-        let options = new RequestOptions({headers});
+    public login(email: string, password: string): Observable<IAuthResponse> {
+        let body = { email, password };
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers });
 
         return this.http.post(this.authUrl, body, options)
-            .map((res:Response) => res.json())
+            .map((res: Response) => res.json())
             .do((res: IAuthResponse) => this.onSuccessLogin(res))
-            .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
     public logout(): Promise<any> {
