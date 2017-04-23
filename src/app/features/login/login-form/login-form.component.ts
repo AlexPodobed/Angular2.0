@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { AuthService, LoaderBlockService } from '../../../core/services';
 
@@ -10,7 +10,8 @@ import { AuthService, LoaderBlockService } from '../../../core/services';
     styles: [require('./login-form.scss')],
     templateUrl: './login-form.component.html'
 })
-export class LoginFormComponent {
+export class LoginFormComponent implements OnDestroy {
+    private subscription: Subscription;
     public loader$: Observable<boolean>;
     public email: string;
     public password: string;
@@ -28,12 +29,20 @@ export class LoginFormComponent {
         return !this.email || !this.password;
     }
 
+    public onSuccess(): void {
+        this.loaderBlockService.hide();
+        this.router.navigate(['/courses']);
+    }
+
     public login(): void {
         this.loaderBlockService.show();
 
-        this.AuthService.login(this.email, this.password)
-            .then(() => this.loaderBlockService.hide())
-            .then(() => this.router.navigate(['/courses']))
-            .catch(() => this.loaderBlockService.hide());
+        this.subscription = this.AuthService.login(this.email, this.password)
+            .do(() => this.onSuccess())
+            .subscribe();
+    }
+
+    ngOnDestroy(): void {
+        this.subscription && this.subscription.unsubscribe();
     }
 }

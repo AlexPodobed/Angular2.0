@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { HttpModule } from '@angular/http';
 
 import { CourseService } from './services/course.service';
 import { CourseModalsModule } from './modals';
@@ -9,7 +10,10 @@ import { ColorizeByDateDirective } from './directives';
         ColorizeByDateDirective
     ],
     providers: [CourseService],
-    imports: [CourseModalsModule],
+    imports: [
+        CourseModalsModule,
+        HttpModule
+    ],
     exports: [
         CourseModalsModule,
         ColorizeByDateDirective

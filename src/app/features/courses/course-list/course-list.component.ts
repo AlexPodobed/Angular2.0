@@ -1,53 +1,92 @@
 import {
-    Component, Input, OnInit, OnChanges, SimpleChanges, ChangeDetectionStrategy
+    Component, Input, OnInit, OnChanges, SimpleChanges,
+    ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy
 } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Observable } from 'rxjs';
-
-import { ICourse } from '../shared/course.model';
-import { CourseService, ConfirmModalModalComponent } from '../shared';
-import { LoaderBlockService } from '../../../core/services';
-
+import { Observable, Subscription } from 'rxjs';
 import { isEmpty } from 'lodash';
+
+import { CourseService, ConfirmModalModalComponent, ICoursesRequest, ICoursePagingResponse, ICourse } from '../shared';
+import { LoaderBlockService } from '../../../core/services';
 
 @Component({
     selector: 'course-list',
     changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './course-list.component.html'
 })
-export class CourseListComponent implements OnInit, OnChanges {
+export class CourseListComponent implements OnInit, OnChanges, OnDestroy {
+    private subscriptions: Subscription[] = [];
+    private options: ICoursesRequest;
+
     @Input() public query: string;
 
-    public courses$: Observable<ICourse[]>;
+    public courses: ICourse[];
     public isEmpty: boolean;
 
     constructor(private courseService: CourseService,
+                private cd: ChangeDetectorRef,
                 private loaderBlockService: LoaderBlockService,
                 private modalService: NgbModal) {
     }
 
     public ngOnInit() {
-        this.loaderBlockService.show();
-        this.courses$ = this.courseService.getAll()
-            .do((courses: ICourse[]) => {
-                this.isEmpty = isEmpty(courses);
-                this.loaderBlockService.hide();
-            });
+        this.options = {
+            query: this.query,
+            page: 1,
+            size: 5
+        };
+        this.fetchCourses();
+    }
+
+    public ngOnDestroy(): void {
+        this.subscriptions.map((sub) => sub.unsubscribe());
     }
 
     public ngOnChanges(changes: SimpleChanges) {
         let queryChange = changes['query'];
 
         if (queryChange && !queryChange.isFirstChange()) {
-            this.query = queryChange.currentValue;
+            this.options.query = queryChange.currentValue;
+            this.fetchCourses();
         }
     }
 
+    public fetchCourses() {
+        this.loaderBlockService.show();
+        this.subscriptions.push(
+            this.courseService.getAll(this.options)
+                .do((res) => this.onCoursesFetched(res))
+                .subscribe()
+        );
+    }
+
+    public fetchMore(page: number) {
+        this.options.page = page;
+        this.fetchCourses();
+    }
+
+    public onCoursesFetched(res: ICoursePagingResponse): void {
+        this.options.total = res.total;
+        this.courses = res.items;
+        this.isEmpty = isEmpty(res.items);
+        this.loaderBlockService.hide();
+        this.cd.markForCheck();
+    }
+
+    public onItemRemoved(): void {
+        this.loaderBlockService.hide();
+        this.fetchCourses();
+    }
+
     public remove(course: ICourse): void {
-        this.openConfirmModal(course)
-            .then(() => this.courseService.remove(course.id))
-            .then(() => this.loaderBlockService.show())
-            .catch(() => console.log('catch rejected stage'));
+        this.subscriptions.push(
+            this.openConfirmModal(course)
+                .do(() => this.loaderBlockService.show())
+                .switchMapTo(this.courseService.remove(course.id))
+                .do(() => this.onItemRemoved())
+                .catch((err) => Observable.empty())
+                .subscribe()
+        );
     }
 
     public update(course: ICourse): void {
@@ -57,7 +96,6 @@ export class CourseListComponent implements OnInit, OnChanges {
     private openConfirmModal(course: ICourse) {
         const modalRef = this.modalService.open(ConfirmModalModalComponent);
         modalRef.componentInstance.course = course;
-
-        return modalRef.result;
+        return Observable.fromPromise(modalRef.result);
     }
 }

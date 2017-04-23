@@ -24,7 +24,7 @@ export class CourseSearchComponent {
 
     set searchQuery(value: string) {
         this._searchQuery = value;
-        this.search.emit(value);
+        // this.search.emit(value);
     }
 
     public findCourse(): void {
