@@ -4,10 +4,13 @@ import {
 } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+
 import { isEmpty } from 'lodash';
 
 import { CourseService, ConfirmModalModalComponent, ICoursesRequest, ICoursePagingResponse, ICourse } from '../shared';
 import { LoaderBlockService } from '../../../core/services';
+import { fetchListAction, selectCoursePageAction } from '../courses.actions';
 
 @Component({
     selector: 'course-list',
@@ -17,6 +20,7 @@ import { LoaderBlockService } from '../../../core/services';
 export class CourseListComponent implements OnInit, OnChanges, OnDestroy {
     private subscriptions: Subscription[] = [];
     private options: ICoursesRequest;
+    private courseStore;
 
     @Input() public query: string;
 
@@ -26,16 +30,35 @@ export class CourseListComponent implements OnInit, OnChanges, OnDestroy {
     constructor(private courseService: CourseService,
                 private cd: ChangeDetectorRef,
                 private loaderBlockService: LoaderBlockService,
-                private modalService: NgbModal) {
+                private modalService: NgbModal,
+                private store: Store<any>) {
+
+        this.courseStore = this.store.select('courses');
+
+        this.loading$ = this.courseStore.map(data => data['loading']);
+        this.courses$ = this.courseStore.map(data => data['items']);
+        this.total$ = this.courseStore.map(data => data['total']);
+        this.size$ = this.courseStore.map(data => data['size']);
+        this.page$ = this.courseStore.map(data => data['page']);
+
+        this.subscriptions.push(
+            this.loading$.subscribe((isLoading) => this.loaderBlockService.toggleLoader(isLoading)),
+            this.page$.subscribe((num) => {
+                this.page = num;
+            })
+        )
     }
 
     public ngOnInit() {
-        this.options = {
-            query: this.query,
-            page: 1,
-            size: 5
-        };
-        this.fetchCourses();
+
+        // this.options = {
+        //     query: this.query,
+        //     page: 0,
+        //     size: 3
+        // };
+        // this.fetchCourses();
+
+        this.courseStore.dispatch(fetchListAction());
     }
 
     public ngOnDestroy(): void {
@@ -47,31 +70,35 @@ export class CourseListComponent implements OnInit, OnChanges, OnDestroy {
 
         if (queryChange && !queryChange.isFirstChange()) {
             this.options.query = queryChange.currentValue;
-            this.fetchCourses();
+            // this.fetchCourses();
         }
     }
 
-    public fetchCourses() {
-        this.loaderBlockService.show();
-        this.subscriptions.push(
-            this.courseService.getAll(this.options)
-                .do((res) => this.onCoursesFetched(res))
-                .subscribe()
-        );
-    }
+    // public fetchCourses() {
+    //     // this.loaderBlockService.show();
+    //     this.subscriptions.push(
+    //         this.courseService.getAll(this.options)
+    //             .do((res) => this.onCoursesFetched(res))
+    //             .subscribe()
+    //     );
+    // }
 
     public fetchMore(page: number) {
-        this.options.page = page;
-        this.fetchCourses();
+        // this.options.page = page;
+        // console.log(page);
+        this.courseStore.dispatch(selectCoursePageAction(page));
+        this.courseStore.dispatch(fetchListAction())
+        // this.fetchCourses();
     }
 
-    public onCoursesFetched(res: ICoursePagingResponse): void {
-        this.options.total = res.total;
-        this.courses = res.items;
-        this.isEmpty = isEmpty(res.items);
-        this.loaderBlockService.hide();
-        this.cd.markForCheck();
-    }
+    //
+    // public onCoursesFetched(res: ICoursePagingResponse): void {
+    //     this.options.total = res.total;
+    //     this.courses = res.items;
+    //     this.isEmpty = isEmpty(res.items);
+    //     // this.loaderBlockService.hide();
+    //     this.cd.markForCheck();
+    // }
 
     public onItemRemoved(): void {
         this.loaderBlockService.hide();

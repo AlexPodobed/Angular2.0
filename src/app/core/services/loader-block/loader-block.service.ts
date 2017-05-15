@@ -20,4 +20,8 @@ export class LoaderBlockService {
     hide() {
         this.loaderSource.next(false);
     }
+
+    toggleLoader(flag: boolean) {
+        this.loaderSource.next(flag);
+    }
 }
