@@ -1,5 +1,20 @@
 <div class="jumbotron">
     <h1 class="display-3">Welcome Page!</h1>
+    <div class="form-inline">
+        <input type="text" #inputNum value="1" class="form-control form-control-sm mb-2 mr-sm-2 mb-sm-0">
+        <button class="btn btn-outline-success btn-sm" (click)="click$.next(inputNum.value)">update</button>
+    </div>
+    <sh-clock [time]="clock | async"></sh-clock>
     <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to
         featured content or information.</p>
+</div>
+
+<div>
+    <h3>People:</h3>
+    <button (click)="recall$.next()" class="btn btn-sm btn-outline-warning">recall</button>
+    <ul>
+        <li *ngFor="let person of people$ | async" (click)="person$.next(person)">
+            {{person.name}} {{person.time | date : 'jms'}}
+        </li>
+    </ul>
 </div>

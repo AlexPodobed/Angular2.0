@@ -6,7 +6,8 @@ import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularclass/hmr';
 import { ENV_PROVIDERS } from './environment';
-
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 // Routes
 import { ROUTES } from './app.routes';
 
@@ -27,6 +28,7 @@ import { NoContentComponent } from './features/no-content';
 
 // App is our top level component
 import { AppComponent } from './app.component';
+import { clock, people } from './core/reducers/reducers';
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -40,6 +42,10 @@ import { AppComponent } from './app.component';
         FormsModule,
         HttpModule,
         RouterModule.forRoot(ROUTES, { useHash: false }),
+        StoreModule.provideStore({ clock, people }),
+        StoreDevtoolsModule.instrumentOnlyWithExtension({
+            maxAge: 5
+        }),
         NgbModule.forRoot(),
         // commons
         CoreModule,

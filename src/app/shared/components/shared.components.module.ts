@@ -4,9 +4,11 @@ import { DurationInputModule } from './duration-input';
 import { AuthorSelectModule } from './author-select';
 import { NoResultModule } from './no-results';
 import { PaginationModule } from './pagination';
+import { ClockModule } from './clock';
 
 @NgModule({
     imports: [
+        ClockModule,
         PaginationModule,
         NoResultModule,
         AuthorSelectModule,
@@ -14,6 +16,7 @@ import { PaginationModule } from './pagination';
         DurationInputModule
     ],
     exports: [
+        ClockModule,
         PaginationModule,
         NoResultModule,
         AuthorSelectModule,
