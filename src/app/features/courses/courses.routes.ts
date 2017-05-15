@@ -3,6 +3,6 @@ import { CoursesContainerComponent, CourseDetailsComponent, CourseFormComponent 
 
 export const COURSES_ROUTES: Routes = [
     { path: 'courses', component: CoursesContainerComponent },
-    { path: 'course-details', component: CourseDetailsComponent },
-    { path: 'course-form', component: CourseFormComponent }
+    { path: 'courses/new', component: CourseFormComponent },
+    { path: 'courses/:id', component: CourseDetailsComponent }
 ];

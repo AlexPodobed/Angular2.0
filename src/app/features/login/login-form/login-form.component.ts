@@ -11,7 +11,7 @@ import { AuthService, LoaderBlockService } from '../../../core/services';
     templateUrl: './login-form.component.html'
 })
 export class LoginFormComponent implements OnDestroy {
-    private subscription: Subscription;
+    private subscriptions: Subscription[] = [];
     public loader$: Observable<boolean>;
     public email: string;
     public password: string;
@@ -23,6 +23,14 @@ export class LoginFormComponent implements OnDestroy {
         this.loader$ = loaderBlockService.loaderStatus$;
         this.password = '';
         this.email = '';
+
+        this.subscriptions.push(
+            this.AuthService.token$.subscribe((token) => {
+                if (token) {
+                    this.onSuccess();
+                }
+            })
+        );
     }
 
     public isDisabled(): boolean {
@@ -37,12 +45,10 @@ export class LoginFormComponent implements OnDestroy {
     public login(): void {
         this.loaderBlockService.show();
 
-        this.subscription = this.AuthService.login(this.email, this.password)
-            .do(() => this.onSuccess())
-            .subscribe();
+        this.AuthService.login(this.email, this.password);
     }
 
     ngOnDestroy(): void {
-        this.subscription && this.subscription.unsubscribe();
+        this.subscriptions.map((sub) => sub.unsubscribe());
     }
 }

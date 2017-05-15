@@ -1,9 +1,12 @@
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+
 import { LoaderBlockModule, FooterModule, HeaderModule, LogoModule } from './components';
 import {
-    LoaderBlockService, AuthService, DebugZoneService, AppState, StorageService, AuthorizedHttp
+    LoaderBlockService, AuthService, AuthAPIService, DebugZoneService, AppState, StorageService, AuthorizedHttp
 } from './services';
 
 import { PipesModule } from './pipes';
@@ -11,6 +14,8 @@ import { PipesModule } from './pipes';
 @NgModule({
     declarations: [],
     imports: [
+        BrowserModule,
+        FormsModule,
         HttpModule,
         LoaderBlockModule,
         FooterModule,
@@ -20,6 +25,7 @@ import { PipesModule } from './pipes';
     ],
     providers: [
         AppState,
+        AuthAPIService,
         AuthService,
         StorageService,
         AuthorizedHttp,
@@ -27,6 +33,8 @@ import { PipesModule } from './pipes';
         LoaderBlockService
     ],
     exports: [
+        BrowserModule,
+        FormsModule,
         LoaderBlockModule,
         FooterModule,
         HeaderModule,

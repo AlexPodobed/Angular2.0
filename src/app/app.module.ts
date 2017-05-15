@@ -1,22 +1,24 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-import { NgModule, ApplicationRef } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularclass/hmr';
-import { ENV_PROVIDERS } from './environment';
-import { StoreModule } from '@ngrx/store';
+// ngrx deps
+import { StoreModule, combineReducers } from '@ngrx/store';
+import { compose } from '@ngrx/core/compose';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { localStorageSync } from 'ngrx-store-localstorage';
+import { EffectsModule } from '@ngrx/effects';
+
+import { AuthEffects } from './core/effects';
+import { clock, people, auth } from './core/reducers';
+
+import { ENV_PROVIDERS } from './environment';
+
 // Routes
 import { ROUTES } from './app.routes';
 
 // Core module
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
-
-// Services
-import { AppState } from './core/services';
 
 // Features
 import { CoursesModule } from './features/courses';
@@ -25,10 +27,7 @@ import { HomeComponent } from './features/home';
 
 // Components
 import { NoContentComponent } from './features/no-content';
-
-// App is our top level component
 import { AppComponent } from './app.component';
-import { clock, people } from './core/reducers/reducers';
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -37,12 +36,14 @@ import { clock, people } from './core/reducers/reducers';
     bootstrap: [AppComponent],
     declarations: [AppComponent, NoContentComponent, HomeComponent],
     imports: [
-        // import Angular's modules
-        BrowserModule,
-        FormsModule,
-        HttpModule,
         RouterModule.forRoot(ROUTES, { useHash: false }),
-        StoreModule.provideStore({ clock, people }),
+        StoreModule.provideStore(
+            compose(
+                localStorageSync({ keys: ['auth'] }),
+                combineReducers
+            )({ clock, people, auth })
+        ),
+        EffectsModule.run(AuthEffects),
         StoreDevtoolsModule.instrumentOnlyWithExtension({
             maxAge: 5
         }),
@@ -60,46 +61,4 @@ import { clock, people } from './core/reducers/reducers';
     ]
 })
 export class AppModule {
-
-    constructor(public appRef: ApplicationRef,
-                public appState: AppState) {
-    }
-
-    public hmrOnInit(store: any) {
-        if (!store || !store.state) {
-            return;
-        }
-        console.log('HMR store', JSON.stringify(store, null, 2));
-        // set state
-        this.appState._state = store.state;
-        // set input values
-        if ('restoreInputValues' in store) {
-            let restoreInputValues = store.restoreInputValues;
-            setTimeout(restoreInputValues);
-        }
-
-        this.appRef.tick();
-        delete store.state;
-        delete store.restoreInputValues;
-    }
-
-    public hmrOnDestroy(store: any) {
-        const cmpLocation = this.appRef.components.map((cmp) => cmp.location.nativeElement);
-        // save state
-        const state = this.appState._state;
-        store.state = state;
-        // recreate root elements
-        store.disposeOldHosts = createNewHosts(cmpLocation);
-        // save input values
-        store.restoreInputValues = createInputTransfer();
-        // remove styles
-        removeNgStyles();
-    }
-
-    public hmrAfterDestroy(store: any) {
-        // display new elements
-        store.disposeOldHosts();
-        delete store.disposeOldHosts;
-    }
-
 }

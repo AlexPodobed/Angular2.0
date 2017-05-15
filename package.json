@@ -71,6 +71,7 @@
     "@angularclass/hmr": "~1.2.2",
     "@angularclass/hmr-loader": "~3.0.2",
     "@ng-bootstrap/ng-bootstrap": "^1.0.0-alpha.21",
+    "@ngrx/effects": "^2.0.3",
     "@ngrx/store-devtools": "^3.2.4",
     "@types/lodash": "^4.14.55",
     "bootstrap": "^4.0.0-alpha.6",
@@ -81,6 +82,7 @@
     "jasmine-core": "^2.5.2",
     "lodash": "^4.17.4",
     "ngrx": "^2.0.1",
+    "ngrx-store-localstorage": "^0.1.7",
     "reflect-metadata": "^0.1.9",
     "rxjs": "5.0.2",
     "zone.js": "0.7.6"

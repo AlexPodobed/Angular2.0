@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
 import { ClockComponent } from './clock.component';
-import { CommonModule } from "@angular/common";
 
 @NgModule({
     declarations: [ClockComponent],
