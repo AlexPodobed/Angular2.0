@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
 import {
-    LOAD_COURSES, REMOVE_COURSE, REMOVE_COURSE_POPUP, SELECT_PAGE,
+    LOAD_COURSES, REMOVE_COURSE, REMOVE_COURSE_POPUP, SELECT_PAGE, SEARCH_COURSE,
     fetchListSuccessAction,
     fetchListErrorAction,
     removeCourseSuccessAction,
@@ -33,8 +33,8 @@ export class CourseEffects {
     @Effect() public loadCourses$ = this.action$
         .ofType(LOAD_COURSES)
         .withLatestFrom(this.store$.select('courses'))
-        .map(([action, store]) => ({ page: store['page'], size: store['size'] }))
-        .switchMap((data) => this.courseService.getAllSimple(data)
+        .map(([action, store]) => ({ page: store['page'], size: store['size'], query: store['query'] }))
+        .switchMap((data) => this.courseService.getAll(data)
             .map((res) => fetchListSuccessAction(res))
             .catch((err) => Observable.of(fetchListErrorAction(err)))
         );
@@ -59,5 +59,9 @@ export class CourseEffects {
 
     @Effect() public paginate$ = this.action$
         .ofType(SELECT_PAGE)
+        .switchMap(() => Observable.of(fetchListAction()));
+
+    @Effect() public search$ = this.action$
+        .ofType(SEARCH_COURSE)
         .switchMap(() => Observable.of(fetchListAction()));
 }

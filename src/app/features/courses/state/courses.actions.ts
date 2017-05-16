@@ -10,6 +10,7 @@ export const REMOVE_COURSE = 'REMOVE_COURSE';
 export const REMOVE_COURSE_SUCCESS = 'REMOVE_COURSE_SUCCESS';
 export const REMOVE_COURSE_FAIL = 'REMOVE_COURSE_FAIL';
 export const REMOVE_COURSE_POPUP = 'REMOVE_COURSE_POPUP';
+export const SEARCH_COURSE = "SEARCH_COURSE";
 
 export const fetchListAction = () => ({
     type: LOAD_COURSES, payload: {}
@@ -44,4 +45,8 @@ export const removeCourseErrorAction = (err) => ({
 
 export const openRemoveCoursePopupAction = (course: ICourse) => ({
     type: REMOVE_COURSE_POPUP, payload: { ...course }
+});
+
+export const searchQuesryAction = (query: string) => ({
+    type: SEARCH_COURSE, payload: { query }
 });

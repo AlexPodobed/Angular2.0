@@ -8,7 +8,8 @@ import {
     SELECT_SIZE,
     REMOVE_COURSE,
     REMOVE_COURSE_SUCCESS,
-    REMOVE_COURSE_FAIL
+    REMOVE_COURSE_FAIL,
+    SEARCH_COURSE
 } from './courses.actions';
 
 const initialState = {
@@ -17,6 +18,7 @@ const initialState = {
     items: [],
     page: 0,
     size: 3,
+    query: '',
     total: null
 };
 
@@ -52,6 +54,11 @@ export const courses = (state = initialState, action: Action) => {
             return Object.assign({}, state, {
                 error: action.payload.error,
                 loading: false
+            });
+        case SEARCH_COURSE:
+            return Object.assign({}, state, {
+                query: action.payload.query,
+                page: 0
             });
         default:
             return state;

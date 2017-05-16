@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 
 import {
     REMOVE_COURSE_SUCCESS,
-    fetchListAction, selectCoursePageAction, openRemoveCoursePopupAction
+    fetchListAction, selectCoursePageAction, openRemoveCoursePopupAction, searchQuesryAction
 } from '../state/courses.actions';
 import { LoaderBlockService } from '../../../core/services';
 import { CourseEffects } from '../state/courses.effects';
@@ -19,9 +19,9 @@ import { ICourse } from '../shared';
 export class CoursesContainerComponent implements OnDestroy, OnInit {
     private subscriptions: Subscription[] = [];
 
-    public searchQuery: string;
     public loading$: Observable<boolean>;
     public removeSuccess$: Observable<any>;
+    public query$: Observable<string>;
     public courses$;
 
     constructor(private store: Store<any>,
@@ -29,6 +29,7 @@ export class CoursesContainerComponent implements OnDestroy, OnInit {
                 private loaderBlockService: LoaderBlockService) {
         this.courses$ = this.store.select('courses');
         this.loading$ = this.courses$.map((data) => data['loading']);
+        this.query$ = this.courses$.map((data) => data['query']);
         this.removeSuccess$ = this.courseEffects.removeCourse$.filter(({ type }) => type === REMOVE_COURSE_SUCCESS);
 
         this.subscriptions.push(
@@ -46,7 +47,7 @@ export class CoursesContainerComponent implements OnDestroy, OnInit {
     }
 
     public onSearch(query: string) {
-        this.searchQuery = query;
+        this.courses$.dispatch(searchQuesryAction(query))
     }
 
     public fetchCourses(): void {

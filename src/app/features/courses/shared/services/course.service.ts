@@ -25,30 +25,15 @@ export interface ICoursePagingResponse {
 @Injectable()
 export class CourseService {
     private static BASE_URL: string = 'http://angular2.getsandbox.com';
-    // private courseSource: BehaviorSubject<ICourse[]>;
 
     constructor(private http: AuthorizedHttp) {
-        // this.courseSource = new BehaviorSubject(this.COURSES);
-    }
-
-    public getAllSimple({page, size}) {
-        let requestOptions = new RequestOptions();
-        let urlParams: URLSearchParams = new URLSearchParams();
-
-        urlParams.set('page', page.toString());
-        urlParams.set('size', size.toString());
-
-        requestOptions.search = urlParams;
-
-        return this.http.get(`${CourseService.BASE_URL}/courses`, requestOptions)
-            .map((res: Response) => res.json());
     }
 
     public getAll({ page, size, query }: ICoursesRequest): Observable<ICoursePagingResponse> {
         let requestOptions = new RequestOptions();
         let urlParams: URLSearchParams = new URLSearchParams();
 
-        urlParams.set('page', (--page).toString());
+        urlParams.set('page', page.toString());
         urlParams.set('size', size.toString());
         query && urlParams.set('query', query);
         requestOptions.search = urlParams;
