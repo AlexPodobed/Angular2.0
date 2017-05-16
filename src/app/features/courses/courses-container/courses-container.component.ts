@@ -47,7 +47,7 @@ export class CoursesContainerComponent implements OnDestroy, OnInit {
     }
 
     public onSearch(query: string) {
-        this.courses$.dispatch(searchQuesryAction(query))
+        this.courses$.dispatch(searchQuesryAction(query));
     }
 
     public fetchCourses(): void {

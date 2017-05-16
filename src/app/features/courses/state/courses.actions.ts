@@ -10,7 +10,7 @@ export const REMOVE_COURSE = 'REMOVE_COURSE';
 export const REMOVE_COURSE_SUCCESS = 'REMOVE_COURSE_SUCCESS';
 export const REMOVE_COURSE_FAIL = 'REMOVE_COURSE_FAIL';
 export const REMOVE_COURSE_POPUP = 'REMOVE_COURSE_POPUP';
-export const SEARCH_COURSE = "SEARCH_COURSE";
+export const SEARCH_COURSE = 'SEARCH_COURSE';
 
 export const fetchListAction = () => ({
     type: LOAD_COURSES, payload: {}
