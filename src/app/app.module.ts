@@ -9,7 +9,9 @@ import { localStorageSync } from 'ngrx-store-localstorage';
 import { EffectsModule } from '@ngrx/effects';
 
 import { AuthEffects } from './core/effects';
-import { clock, people, auth } from './core/reducers';
+import { auth } from './core/reducers';
+import { courses } from './features/courses/state/courses.reducer';
+import { CourseEffects } from './features/courses/state/courses.effects';
 
 import { ENV_PROVIDERS } from './environment';
 
@@ -41,9 +43,10 @@ import { AppComponent } from './app.component';
             compose(
                 localStorageSync({ keys: ['auth'] }),
                 combineReducers
-            )({ clock, people, auth })
+            )({ auth, courses })
         ),
         EffectsModule.run(AuthEffects),
+        EffectsModule.run(CourseEffects),
         StoreDevtoolsModule.instrumentOnlyWithExtension({
             maxAge: 5
         }),

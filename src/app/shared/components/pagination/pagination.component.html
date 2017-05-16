@@ -1,7 +1,9 @@
-<ngb-pagination class="d-flex justify-content-center"
-                [collectionSize]="total"
-                [pageSize]="size"
-                [(page)]="page"
-                (pageChange)="onPageChanged(page)"
-                aria-label="Default pagination">
-</ngb-pagination>
+<section *ngIf="loaded">
+    <ngb-pagination class="d-flex justify-content-center"
+                    [collectionSize]="total"
+                    [pageSize]="size"
+                    [(page)]="page"
+                    (pageChange)="onPageChanged(page)"
+                    aria-label="Default pagination">
+    </ngb-pagination>
+</section>
