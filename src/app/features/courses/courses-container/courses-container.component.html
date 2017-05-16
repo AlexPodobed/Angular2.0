@@ -10,5 +10,8 @@
             </button>
         </div>
     </section>
-    <course-list [query]="searchQuery"></course-list>
+    <course-list [courses]="courses$ | async" (onRemove)="remove($event)"></course-list>
+    <sh-pagination [options]="courses$ | async"
+                   (onPaginate)="fetchMoreCourses($event)">
+    </sh-pagination>
 </article>

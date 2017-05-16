@@ -10,13 +10,12 @@ import { ICourse } from '../../shared/course.model';
 export class CourseItemComponent {
     @Input() public course: ICourse;
     @Output() public onRemoved = new EventEmitter<ICourse>();
-    @Output() public onUpdated = new EventEmitter<ICourse>();
 
     public remove(): void {
         this.onRemoved.emit(this.course);
     }
 
     public update(): void {
-        this.onUpdated.emit(this.course);
+        console.log('will be navigated to appropriate page');
     }
 }

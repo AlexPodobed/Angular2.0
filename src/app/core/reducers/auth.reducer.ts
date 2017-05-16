@@ -17,10 +17,7 @@ const initialState: IAuthResponse = StorageService.get('auth') || { user: null, 
 export const auth = (state = initialState, action: Action = { type: INIT }) => {
     switch (action.type) {
         case LOGIN_USER:
-            return Object.assign({}, state, {
-                email: action.payload.email,
-                password: action.payload.password
-            });
+            return Object.assign({}, state);
         case USER_AUTHENTICATED:
             return Object.assign({}, state, {
                 token: action.payload.token,

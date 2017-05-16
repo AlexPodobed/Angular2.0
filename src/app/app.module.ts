@@ -10,8 +10,8 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { AuthEffects } from './core/effects';
 import { clock, people, auth } from './core/reducers';
-import { courses } from './features/courses/courses.reducer';
-import { CourseEffects } from './features/courses/courses.effects';
+import { courses } from './features/courses/state/courses.reducer';
+import { CourseEffects } from './features/courses/state/courses.effects';
 
 import { ENV_PROVIDERS } from './environment';
 

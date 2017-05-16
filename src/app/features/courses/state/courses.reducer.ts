@@ -1,8 +1,15 @@
 import { Action } from '@ngrx/store';
-import { ICourse } from './shared/course.model';
-import { State } from "ngrx/@ngrx/store";
 
-import { LOAD_COURSES, LOAD_COURSES_SUCCESS, SELECT_PAGE, SELECT_SIZE } from './courses.actions';
+import {
+    LOAD_COURSES,
+    LOAD_COURSES_SUCCESS,
+    LOAD_COURSES_FAIL,
+    SELECT_PAGE,
+    SELECT_SIZE,
+    REMOVE_COURSE,
+    REMOVE_COURSE_SUCCESS,
+    REMOVE_COURSE_FAIL
+} from './courses.actions';
 
 const initialState = {
     loaded: false,
@@ -16,6 +23,7 @@ const initialState = {
 export const courses = (state = initialState, action: Action) => {
     switch (action.type) {
         case LOAD_COURSES:
+        case REMOVE_COURSE:
             return Object.assign({}, state, {
                 loading: true
             });
@@ -28,13 +36,22 @@ export const courses = (state = initialState, action: Action) => {
                 page: action.payload.page
             });
         case SELECT_PAGE:
-            console.log(`action: SELECT PAGE ${action.payload.page}`)
             return Object.assign({}, state, {
                 page: action.payload.page
             });
         case SELECT_SIZE:
             return Object.assign({}, state, {
                 size: action.payload.size
+            });
+        case REMOVE_COURSE_SUCCESS:
+            return Object.assign({}, state, {
+                loading: false
+            });
+        case REMOVE_COURSE_FAIL:
+        case LOAD_COURSES_FAIL:
+            return Object.assign({}, state, {
+                error: action.payload.error,
+                loading: false
             });
         default:
             return state;

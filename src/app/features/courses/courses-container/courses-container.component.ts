@@ -1,4 +1,14 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+
+import {
+    REMOVE_COURSE_SUCCESS,
+    fetchListAction, selectCoursePageAction, openRemoveCoursePopupAction
+} from '../state/courses.actions';
+import { LoaderBlockService } from '../../../core/services';
+import { CourseEffects } from '../state/courses.effects';
+import { ICourse } from '../shared';
 
 @Component({
     selector: 'courses-container',
@@ -6,10 +16,48 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     styles: [require('./courses-container.scss')],
     templateUrl: './courses-container.component.html'
 })
-export class CoursesContainerComponent {
+export class CoursesContainerComponent implements OnDestroy, OnInit {
+    private subscriptions: Subscription[] = [];
+
     public searchQuery: string;
+    public loading$: Observable<boolean>;
+    public removeSuccess$: Observable<any>;
+    public courses$;
+
+    constructor(private store: Store<any>,
+                private courseEffects: CourseEffects,
+                private loaderBlockService: LoaderBlockService) {
+        this.courses$ = this.store.select('courses');
+        this.loading$ = this.courses$.map((data) => data['loading']);
+        this.removeSuccess$ = this.courseEffects.removeCourse$.filter(({ type }) => type === REMOVE_COURSE_SUCCESS);
+
+        this.subscriptions.push(
+            this.loading$.subscribe((loading) => this.loaderBlockService.toggleLoader(loading)),
+            this.removeSuccess$.subscribe(() => this.fetchCourses())
+        );
+    }
+
+    public ngOnInit(): void {
+        this.fetchCourses();
+    }
+
+    public ngOnDestroy(): void {
+        this.subscriptions.map((sub) => sub.unsubscribe());
+    }
 
     public onSearch(query: string) {
         this.searchQuery = query;
+    }
+
+    public fetchCourses(): void {
+        this.courses$.dispatch(fetchListAction());
+    }
+
+    public fetchMoreCourses(page: number) {
+        this.courses$.dispatch(selectCoursePageAction(page));
+    }
+
+    public remove(course: ICourse): void {
+        this.courses$.dispatch(openRemoveCoursePopupAction(course));
     }
 }
