@@ -21,10 +21,9 @@ export interface ICoursePagingResponse {
     page: number;
 }
 
-/* tslint:disable */
 @Injectable()
 export class CourseService {
-    private static BASE_URL: string = 'http://angular2.getsandbox.com';
+    private static BASE_URL: string = 'http://angular2.getsandbox.com/courses';
 
     constructor(private http: AuthorizedHttp) {
     }
@@ -38,26 +37,30 @@ export class CourseService {
         query && urlParams.set('query', query);
         requestOptions.search = urlParams;
 
-        return this.http.get(`${CourseService.BASE_URL}/courses`, requestOptions)
+        return this.http.get(CourseService.BASE_URL, requestOptions)
             .map((res: Response) => res.json());
     }
 
-    public save(course: ICourse): void {
-        // this.COURSES.push(course);
-        // this.courseSource.next([...this.COURSES]);
+    public get(id: string): Observable<ICourse> {
+        return this.http.get(`${CourseService.BASE_URL}/${id}`)
+            .map((res: Response) => res.json());
     }
 
-    public update(course: ICourse): void {
-        // let index = findIndex(this.COURSES, { id: course.id });
-        // this.COURSES[index] = course;
-        //
-        // this.courseSource.next([...this.COURSES]);
+    public save(course: ICourse): Observable<ICourse> {
+        return this.http.post(CourseService.BASE_URL, course)
+            .map((res: Response) => res.json());
+    }
+
+    public update(course: ICourse): Observable<ICourse> {
+        console.log('update',course);
+        return this.http.put(`${CourseService.BASE_URL}/${course.id}`, course)
+            .map((res: Response) => res.json());
     }
 
     public remove(id: number): Observable<any> {
         let requestOptions = new RequestOptions();
 
-        return this.http.delete(`${CourseService.BASE_URL}/courses/${id}`, requestOptions)
+        return this.http.delete(`${CourseService.BASE_URL}/${id}`, requestOptions)
             .map((res: Response) => res.json());
     };
 

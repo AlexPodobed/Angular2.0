@@ -1,4 +1,7 @@
-<section>
-    <input type="number" [(ngModel)]="duration" class="form-control" min="0">
-    <span>{{duration | duration}}</span>
+<section class="d-flex justify-content-start">
+    <input type="text"
+           required
+           [(ngModel)]="duration"
+           class="form-control">
+    <span class="ml-auto p-2 w-50">{{duration | duration}}</span>
 </section>

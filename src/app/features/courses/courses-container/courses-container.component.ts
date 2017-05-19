@@ -2,10 +2,7 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 
-import {
-    REMOVE_COURSE_SUCCESS,
-    fetchListAction, selectCoursePageAction, openRemoveCoursePopupAction, searchQuesryAction
-} from '../state/courses.actions';
+import * as actions from '../state/courses.actions';
 import { LoaderBlockService } from '../../../core/services';
 import { CourseEffects } from '../state/courses.effects';
 import { ICourse } from '../shared';
@@ -30,7 +27,7 @@ export class CoursesContainerComponent implements OnDestroy, OnInit {
         this.courses$ = this.store.select('courses');
         this.loading$ = this.courses$.map((data) => data['loading']);
         this.query$ = this.courses$.map((data) => data['query']);
-        this.removeSuccess$ = this.courseEffects.removeCourse$.filter(({ type }) => type === REMOVE_COURSE_SUCCESS);
+        this.removeSuccess$ = this.courseEffects.removeCourse$.filter(({ type }) => type === actions.REMOVE_COURSE_SUCCESS);
 
         this.subscriptions.push(
             this.loading$.subscribe((loading) => this.loaderBlockService.toggleLoader(loading)),
@@ -47,18 +44,18 @@ export class CoursesContainerComponent implements OnDestroy, OnInit {
     }
 
     public onSearch(query: string) {
-        this.courses$.dispatch(searchQuesryAction(query));
+        this.courses$.dispatch(actions.searchQuesryAction(query));
     }
 
     public fetchCourses(): void {
-        this.courses$.dispatch(fetchListAction());
+        this.courses$.dispatch(actions.fetchListAction());
     }
 
     public fetchMoreCourses(page: number) {
-        this.courses$.dispatch(selectCoursePageAction(page));
+        this.courses$.dispatch(actions.selectCoursePageAction(page));
     }
 
     public remove(course: ICourse): void {
-        this.courses$.dispatch(openRemoveCoursePopupAction(course));
+        this.courses$.dispatch(actions.openRemoveCoursePopupAction(course));
     }
 }

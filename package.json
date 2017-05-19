@@ -81,6 +81,7 @@
     "ie-shim": "^0.1.0",
     "jasmine-core": "^2.5.2",
     "lodash": "^4.17.4",
+    "moment": "^2.18.1",
     "ngrx": "^2.0.1",
     "ngrx-store-localstorage": "^0.1.7",
     "reflect-metadata": "^0.1.9",

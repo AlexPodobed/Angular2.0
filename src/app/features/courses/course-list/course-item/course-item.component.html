@@ -9,7 +9,7 @@
         <p class="course-item__description pr-2">{{course.description}}</p>
     </div>
     <div class="col-md-2 col-xs-12">
-        <button (click)="update()" type="button" class="btn btn-block btn-secondary">Edit course</button>
+        <button  [routerLink]="['/courses/update', course.id]" type="button" class="btn btn-block btn-secondary">Edit course</button>
         <button (click)="remove()" type="button" class="btn btn-block btn-outline-danger">Delete</button>
     </div>
 </div>
