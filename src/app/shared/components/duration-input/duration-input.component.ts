@@ -17,10 +17,13 @@ const CUSTOM_DURATION_VALUE_ACCESSOR = {
     providers: [CUSTOM_DURATION_VALUE_ACCESSOR, ControlValueAccessorService]
 })
 export class DurationInputComponent implements OnInit {
+    constructor(private controlValueAccessor: ControlValueAccessorService) {
+    }
+
     private _duration;
 
-    private static parseDuration(value: any) {
-        return /\D/.test(value) || !value.length ? value : parseInt(value, 10);
+    get duration() {
+        return this._duration;
     }
 
     set duration(value) {
@@ -29,11 +32,8 @@ export class DurationInputComponent implements OnInit {
         this._duration = parsed;
     }
 
-    get duration() {
-        return this._duration;
-    }
-
-    constructor(private controlValueAccessor: ControlValueAccessorService) {
+    private static parseDuration(value: any) {
+        return /\D/.test(value) || !value.length ? value : parseInt(value, 10);
     }
 
     ngOnInit(): void {

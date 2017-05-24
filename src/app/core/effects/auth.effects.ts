@@ -7,9 +7,6 @@ import { AuthAPIService } from '../services/auth/auth-api.service';
 
 @Injectable()
 export class AuthEffects {
-    constructor(private action$: Actions, private authAPI: AuthAPIService) {
-    }
-
     @Effect() login$ = this.action$
         .ofType(LOGIN_USER)
         .map(toPayload)
@@ -17,8 +14,10 @@ export class AuthEffects {
             .map((res) => ({ type: USER_AUTHENTICATED, payload: res }))
             .catch(() => Observable.of({ type: LOGIN_FAILURE }))
         );
-
     @Effect() logout$ = this.action$
         .ofType(LOGOUT_USER)
         .switchMap(() => Observable.of({ type: LOGOUT_RECEIVED }));
+
+    constructor(private action$: Actions, private authAPI: AuthAPIService) {
+    }
 }

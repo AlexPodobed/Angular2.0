@@ -19,7 +19,20 @@ const CUSTOM_DATEPICKER_VALUE_ACCESSOR = {
 })
 export class DatePickerComponent implements OnInit {
     private static dateFormat: string = 'YYYY-MM-DD';
+
+    constructor(private controlValueAccessor: ControlValueAccessorService) {
+    }
+
     private _timestamp: string;
+
+    get timestamp() {
+        return this._timestamp;
+    }
+
+    set timestamp(value: string) {
+        this.controlValueAccessor.value = DatePickerComponent.parseDateString(value);
+        this._timestamp = value;
+    }
 
     private static parseDateString(dateStr: string) {
         let date = moment(dateStr);
@@ -33,19 +46,7 @@ export class DatePickerComponent implements OnInit {
             : moment().format(DatePickerComponent.dateFormat);
     }
 
-    get timestamp() {
-        return this._timestamp;
-    }
-
-    set timestamp(value: string) {
-        this.controlValueAccessor.value = DatePickerComponent.parseDateString(value);
-        this._timestamp = value;
-    }
-
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this.timestamp = DatePickerComponent.setDefaultDate(this.controlValueAccessor.value);
-    }
-
-    constructor(private controlValueAccessor: ControlValueAccessorService) {
     }
 }

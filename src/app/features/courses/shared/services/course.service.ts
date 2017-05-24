@@ -34,7 +34,10 @@ export class CourseService {
 
         urlParams.set('page', page.toString());
         urlParams.set('size', size.toString());
-        query && urlParams.set('query', query);
+
+        if (query) {
+            urlParams.set('query', query);
+        }
         requestOptions.search = urlParams;
 
         return this.http.get(CourseService.BASE_URL, requestOptions)
@@ -52,7 +55,6 @@ export class CourseService {
     }
 
     public update(course: ICourse): Observable<ICourse> {
-        console.log('update',course);
         return this.http.put(`${CourseService.BASE_URL}/${course.id}`, course)
             .map((res: Response) => res.json());
     }

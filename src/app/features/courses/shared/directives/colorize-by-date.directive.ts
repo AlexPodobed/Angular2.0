@@ -8,16 +8,18 @@ export class ColorizeByDateDirective implements OnInit {
     private static defaultColor: string = '#fff';
     private static greenColor: string = '#8BC34A';
     private static blueColor: string = '#00B0FF';
-
+    @Input('colorizeByDate') public dateTime: number;
     private currentTime: number = new Date().getTime();
     private outdatedOffset: number = this.currentTime - ColorizeByDateDirective.dayOffset * 24 * 60 * 60 * 1000;
-
-    @Input('colorizeByDate') public dateTime: number;
 
     constructor(private el: ElementRef) {
     }
 
-    getColor(): string {
+    public ngOnInit(): void {
+        this.el.nativeElement.style.borderLeftColor = this.getColor();
+    }
+
+    private getColor(): string {
         let color: string;
 
         if (this.dateTime < this.currentTime && this.dateTime >= this.outdatedOffset) {
@@ -29,9 +31,5 @@ export class ColorizeByDateDirective implements OnInit {
         }
 
         return color;
-    }
-
-    ngOnInit(): void {
-        this.el.nativeElement.style.borderLeftColor = this.getColor();
     }
 }

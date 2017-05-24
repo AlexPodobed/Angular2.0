@@ -11,10 +11,10 @@ import { AuthService, LoaderBlockService } from '../../../core/services';
     templateUrl: './login-form.component.html'
 })
 export class LoginFormComponent implements OnDestroy {
-    private subscriptions: Subscription[] = [];
     public loader$: Observable<boolean>;
     public email: string;
     public password: string;
+    private subscriptions: Subscription[] = [];
 
     constructor(private AuthService: AuthService,
                 private loaderBlockService: LoaderBlockService,

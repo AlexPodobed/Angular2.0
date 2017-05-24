@@ -53,7 +53,6 @@ export const openRemoveCoursePopupAction = (course: ICourse) => ({
     type: REMOVE_COURSE_POPUP, payload: { ...course }
 });
 
-
 export const saveCourseAction = (model: ICourse, isNew: boolean) => ({
     type: SAVE_COURSE, payload: { model, isNew }
 });

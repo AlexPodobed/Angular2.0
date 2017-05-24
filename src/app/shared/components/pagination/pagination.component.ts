@@ -9,19 +9,23 @@ import {
     templateUrl: './pagination.component.html'
 })
 export class PaginationComponent implements OnChanges {
-    public page: number;
     public size: number;
     public total: number;
     public loaded: boolean;
-
     @Input() public options: any;
     @Output() public onPaginate = new EventEmitter<number>();
 
-    set _page(number) {
-        this.page = number + 1;
+    private _page: number;
+
+    get page(): number {
+        return this._page;
+    }
+
+    set page(number) {
+        this._page = number + 1;
     };
 
-    ngOnChanges(changes: SimpleChanges): void {
+    public ngOnChanges(changes: SimpleChanges): void {
         let optionsChange = changes['options'];
 
         if (optionsChange && !optionsChange.isFirstChange()) {
@@ -29,7 +33,7 @@ export class PaginationComponent implements OnChanges {
             this.loaded = options.loaded;
             this.size = options.size;
             this.total = options.total;
-            this._page = options.page;
+            this.page = options.page;
         }
     }
 

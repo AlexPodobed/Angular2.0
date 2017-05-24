@@ -22,9 +22,7 @@ export const courses = (state: CoursesState = initialState, action: Action) => {
         case actions.REMOVE_COURSE:
         case actions.SAVE_COURSE:
         case actions.GET_COURSE:
-            console.log('reducer')
             return setState(state, { loading: true });
-
 
         case actions.LOAD_COURSES_SUCCESS:
             return setState(state, {

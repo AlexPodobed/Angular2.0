@@ -14,12 +14,11 @@ import { ICourse } from '../shared';
     templateUrl: './courses-container.component.html'
 })
 export class CoursesContainerComponent implements OnDestroy, OnInit {
-    private subscriptions: Subscription[] = [];
-
     public loading$: Observable<boolean>;
     public removeSuccess$: Observable<any>;
     public query$: Observable<string>;
     public courses$;
+    private subscriptions: Subscription[] = [];
 
     constructor(private store: Store<any>,
                 private courseEffects: CourseEffects,

@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
+import { Action } from '@ngrx/store';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
 
@@ -11,8 +12,6 @@ import { LoaderBlockService } from '../../../core/services';
 import { CourseEffects } from '../state/courses.effects';
 import * as actions from '../state/courses.actions';
 import { ICourse } from '../shared';
-import { Action } from '@ngrx/store';
-
 
 @Component({
     selector: 'course-form',
@@ -20,14 +19,7 @@ import { Action } from '@ngrx/store';
     templateUrl: './course-form.component.html'
 })
 export class CourseFormComponent implements OnInit, OnDestroy {
-    private subscriptions: Subscription[];
-
     @Input() public course: ICourse;
-
-    get isNewStrategy(): boolean {
-        return !this.course;
-    }
-
     public loading$: Observable<boolean>;
     public saveSuccess$: Observable<Action>;
     public courseForm: FormGroup;
@@ -58,6 +50,7 @@ export class CourseFormComponent implements OnInit, OnDestroy {
             required: 'Date is required.'
         }
     };
+    private subscriptions: Subscription[];
 
     constructor(private formBuilder: FormBuilder,
                 private loaderBlockService: LoaderBlockService,
@@ -72,7 +65,28 @@ export class CourseFormComponent implements OnInit, OnDestroy {
         this.subscriptions = [
             this.loading$.subscribe((loading) => this.loaderBlockService.toggleLoader(loading)),
             this.saveSuccess$.subscribe(() => this.redirectToListPage())
-        ]
+        ];
+    }
+
+    get isNewStrategy(): boolean {
+        return !this.course;
+    }
+
+    public ngOnInit(): void {
+        this.buildForm();
+    }
+
+    public ngOnDestroy(): void {
+        this.subscriptions.map((sub) => sub.unsubscribe());
+    }
+
+    public cancel(): void {
+        this.courseForm.reset({ emitEvent: true });
+    }
+
+    public save(): void {
+        const model = Object.assign({}, this.course, this.courseForm.value);
+        this.coursesStore$.dispatch(actions.saveCourseAction(model, this.isNewStrategy));
     }
 
     private onValueChanged(data?): void {
@@ -109,22 +123,5 @@ export class CourseFormComponent implements OnInit, OnDestroy {
 
     private redirectToListPage(): void {
         this.router.navigate(['/courses']);
-    }
-
-    public ngOnInit(): void {
-        this.buildForm();
-    }
-
-    public ngOnDestroy(): void {
-        this.subscriptions.map((sub) => sub.unsubscribe());
-    }
-
-    public cancel(): void {
-        this.courseForm.reset({emitEvent: true});
-    }
-
-    public save(): void {
-        const model = Object.assign({}, this.course, this.courseForm.value);
-        this.coursesStore$.dispatch(actions.saveCourseAction(model, this.isNewStrategy));
     }
 }

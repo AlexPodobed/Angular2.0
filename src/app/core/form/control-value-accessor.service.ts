@@ -11,15 +11,15 @@ export class ControlValueAccessorService implements ControlValueAccessor {
     private onTouchedCallback: () => void = noop;
     private onChangeCallback: (_: any) => void = noop;
 
+    get value(): any {
+        return this.currentValue;
+    }
+
     set value(newValue) {
         if (newValue !== this.currentValue) {
             this.currentValue = newValue;
             this.onChangeCallback(newValue);
         }
-    }
-
-    get value(): any {
-        return this.currentValue;
     }
 
     writeValue(value: any): void {

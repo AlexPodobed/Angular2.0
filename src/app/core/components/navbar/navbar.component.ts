@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { Observable }   from 'rxjs';
+import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../services';
@@ -13,10 +13,9 @@ import { IUser } from '../../entities';
     templateUrl: './navbar.component.html'
 })
 export class NavbarComponent implements OnInit, OnDestroy {
-
-    private tokenSub: Subscription;
     public user$: Observable<IUser>;
     public opened: boolean;
+    private tokenSub: Subscription;
 
     constructor(private AuthService: AuthService,
                 private router: Router) {

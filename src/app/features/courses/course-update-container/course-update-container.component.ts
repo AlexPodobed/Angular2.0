@@ -15,11 +15,11 @@ import { ICourse } from '../shared/course.model';
     templateUrl: './course-update-container.component.html'
 })
 export class CourseUpdateContainerComponent implements OnDestroy {
-    private subscriptions: Subscription[] = [];
     public coursesStore$;
     public getSuccess$;
     public loading$;
     public currentCourse: ICourse;
+    private subscriptions: Subscription[] = [];
 
     constructor(private loaderBlockService: LoaderBlockService,
                 private cd: ChangeDetectorRef,
@@ -43,7 +43,7 @@ export class CourseUpdateContainerComponent implements OnDestroy {
                 this.currentCourse = course;
                 this.cd.markForCheck();
             })
-        ]
+        ];
     }
 
     ngOnDestroy(): void {
