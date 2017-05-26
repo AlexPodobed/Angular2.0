@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component, forwardRef, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, forwardRef, OnInit } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { ControlValueAccessorService } from '../../../core/form';
+import { ValueAccessorService } from '../../../core/form';
 
 const CUSTOM_DURATION_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => ControlValueAccessorService),
+    useExisting: forwardRef(() => ValueAccessorService),
     multi: true
 };
 
@@ -14,10 +14,14 @@ const CUSTOM_DURATION_VALUE_ACCESSOR = {
     changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './duration-input.component.html',
     styles: [require('./duration-input.component.scss')],
-    providers: [CUSTOM_DURATION_VALUE_ACCESSOR, ControlValueAccessorService]
+    providers: [CUSTOM_DURATION_VALUE_ACCESSOR, ValueAccessorService]
 })
 export class DurationInputComponent implements OnInit {
-    constructor(private controlValueAccessor: ControlValueAccessorService) {
+
+    constructor(private valueAccessor: ValueAccessorService<number>,
+                private cd: ChangeDetectorRef) {
+
+        this.valueAccessor.modelWrites.subscribe(this.onWriteChange.bind(this));
     }
 
     private _duration;
@@ -28,7 +32,7 @@ export class DurationInputComponent implements OnInit {
 
     set duration(value) {
         let parsed = DurationInputComponent.parseDuration(value);
-        this.controlValueAccessor.value = parsed;
+        this.valueAccessor.value = parsed;
         this._duration = parsed;
     }
 
@@ -37,6 +41,11 @@ export class DurationInputComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.duration = this.controlValueAccessor.value;
+        this.duration = this.valueAccessor.value;
+    }
+
+    private onWriteChange(value) {
+        this.duration = value;
+        this.cd.markForCheck()
     }
 }

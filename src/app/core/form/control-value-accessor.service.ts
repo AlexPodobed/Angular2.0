@@ -1,39 +1,40 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-
-const noop = () => {
-};
+import * as _ from 'lodash';
 
 @Injectable()
-export class ControlValueAccessorService implements ControlValueAccessor {
-    private currentValue: any;
+export class ValueAccessorService<T> implements ControlValueAccessor {
+    public modelWrites: EventEmitter<T> = new EventEmitter<T>();
+    private _model: T;
+    private onTouche: (m: T) => void;
+    private onChange: (m: T) => void;
 
-    private onTouchedCallback: () => void = noop;
-    private onChangeCallback: (_: any) => void = noop;
-
-    get value(): any {
-        return this.currentValue;
+    get value(): T {
+        return this._model;
     }
 
-    set value(newValue) {
-        if (newValue !== this.currentValue) {
-            this.currentValue = newValue;
-            this.onChangeCallback(newValue);
+    set value(value: T) {
+        if (value !== this._model) {
+            this._model = _.cloneDeep(value);
+
+            if (this.onChange) {
+                this.onChange(this._model);
+            }
         }
     }
 
-    writeValue(value: any): void {
-        if (value !== this.currentValue) {
-            this.currentValue = value;
+    writeValue(value: T): void {
+        if (value !== this._model) {
+            this._model = value;
+            this.modelWrites.emit(value);
         }
     }
 
     registerOnChange(fn: any): void {
-        this.onChangeCallback = fn;
+        this.onChange = fn;
     }
 
     registerOnTouched(fn: any): void {
-        this.onTouchedCallback = fn;
+        this.onTouche = fn;
     }
-
 }
