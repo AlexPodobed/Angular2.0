@@ -5,9 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 
 import { LoaderBlockModule, FooterModule, HeaderModule, LogoModule } from './components';
-import {
-    LoaderBlockService, AuthService, AuthAPIService, DebugZoneService, AppState, StorageService, AuthorizedHttp
-} from './services';
+import * as CoreServices from './services';
 
 import { PipesModule } from './pipes';
 
@@ -24,13 +22,13 @@ import { PipesModule } from './pipes';
         PipesModule
     ],
     providers: [
-        AppState,
-        AuthAPIService,
-        AuthService,
-        StorageService,
-        AuthorizedHttp,
-        DebugZoneService,
-        LoaderBlockService
+        CoreServices.AuthAPIService,
+        CoreServices.AuthService,
+        CoreServices.AuthGuard,
+        CoreServices.StorageService,
+        CoreServices.AuthorizedHttp,
+        CoreServices.DebugZoneService,
+        CoreServices.LoaderBlockService
     ],
     exports: [
         BrowserModule,

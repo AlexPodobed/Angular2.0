@@ -8,10 +8,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { localStorageSync } from 'ngrx-store-localstorage';
 import { EffectsModule } from '@ngrx/effects';
 
-import { AuthEffects } from './core/effects';
-import { auth } from './core/reducers';
-import { courses } from './features/courses/state/courses.reducer';
-import { CourseEffects } from './features/courses/state/courses.effects';
+import { AuthEffects, auth } from './core/state/auth';
+import { CourseEffects, courses } from './features/courses/state';
 
 import { ENV_PROVIDERS } from './environment';
 

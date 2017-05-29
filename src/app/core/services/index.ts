@@ -1,4 +1,4 @@
-export * from './appState/appState';
+export * from './auth/auth.guard';
 export * from './auth/auth.service';
 export * from './auth/auth-api.service';
 export * from './storage/storage.service';

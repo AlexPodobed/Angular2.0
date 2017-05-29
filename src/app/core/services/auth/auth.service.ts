@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { IUser, IToken, IAuthResponse } from '../../entities';
-import { logoutAction, loginAction } from '../../actions';
+import { logoutAction, loginAction } from '../../state/auth';
 
 @Injectable()
 export class AuthService {
