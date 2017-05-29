@@ -4,7 +4,7 @@ import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 
-import { LoaderBlockModule, FooterModule, HeaderModule, LogoModule } from './components';
+import { LoaderBlockModule, FooterModule, HeaderModule, LogoModule, ModalModule } from './components';
 import * as CoreServices from './services';
 
 import { PipesModule } from './pipes';
@@ -19,7 +19,8 @@ import { PipesModule } from './pipes';
         FooterModule,
         HeaderModule,
         LogoModule,
-        PipesModule
+        PipesModule,
+        ModalModule
     ],
     providers: [
         CoreServices.AuthAPIService,
@@ -37,7 +38,8 @@ import { PipesModule } from './pipes';
         FooterModule,
         HeaderModule,
         LogoModule,
-        PipesModule
+        PipesModule,
+        ModalModule
     ]
 })
 

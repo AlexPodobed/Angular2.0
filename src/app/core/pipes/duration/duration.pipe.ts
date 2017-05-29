@@ -12,7 +12,7 @@ export class DurationPipe implements PipeTransform {
         return hours > 0 ? `${hours} h ${minutes} min` : `${minutes} min`;
     }
 
-    transform(time: number = 0) {
+    transform(time: number | string = 0) {
         time = toInteger(time);
         return DurationPipe.formatDuration(time);
     }
